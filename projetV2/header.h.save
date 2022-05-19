@@ -29,7 +29,7 @@ typedef struct perso
     int num;
 
 /************ Character stats************/
-
+    
     int PV_Base;
     int Stamina_Base;
     int Faith_Base;
