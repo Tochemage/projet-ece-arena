@@ -11,15 +11,18 @@
 1652879871 source:d:\cours s2\prog\projet\v2\projetv2\gameprog.c
 	"header.h"
 
-1652988594 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\gameprog.c
+1652996730 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\gameprog.c
 	"header.h"
 
-1652988594 c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\header.h
+1653000842 c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\header.h
 	<stdio.h>
 	<stdlib.h>
 	<allegro.h>
 	<time.h>
 
-1652988594 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\main.c
+1653000803 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\main.c
+	"header.h"
+
+1653000975 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\characters.c
 	"header.h"
 

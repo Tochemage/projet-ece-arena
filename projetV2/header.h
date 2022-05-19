@@ -70,7 +70,7 @@ void setTankStats(t_perso *character);
 void setWizardStats(t_perso *character);
 void setAssassinStats(t_perso *character);
 void setSupportStats(t_perso *character);
-
+void characterMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
 
 
 #endif // HEADER_H_INCLUDED

@@ -135,7 +135,7 @@ int main()
             }
             if(undermenu==1)
             {
-                characterMenuScreen(&joe, fondmenu);
+                characterMenuScreen(&joe, fon);
                 undermenu=0;
                 /*
                 draw_sprite(doublebuffer,selectplayer[0],290,230);
