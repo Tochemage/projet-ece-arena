@@ -58,7 +58,7 @@ void InitAllegro()
 	install_mouse();
 	show_mouse(screen);
 	install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, 0);
-	set_display_switch_mode(SWITCH_BACKGROUND);
+	set_display_switch_mode()
 }
 
 t_perso initperso()
