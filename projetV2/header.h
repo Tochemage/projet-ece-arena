@@ -27,6 +27,15 @@ typedef struct perso
     int deplacementyre;
     struct perso*suivant;
     int num;
+
+    int PV_Base;
+    int Stamina_Base;
+    int Faith_Base;
+
+    int PV;
+    int Stamina;
+    int Faith;
+
 }t_perso;
 
 ////////////////proto////////////////
