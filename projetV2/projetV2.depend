@@ -26,3 +26,18 @@
 1653000975 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-main\projetv2\characters.c
 	"header.h"
 
+1653073128 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-characters\projetv2\characters.c
+	"header.h"
+
+1653059909 c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-characters\projetv2\header.h
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
+1653060574 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-characters\projetv2\gameprog.c
+	"header.h"
+
+1653059909 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena-characters\projetv2\main.c
+	"header.h"
+
