@@ -38,11 +38,11 @@ typedef struct perso
     int Stamina;
     int Faith;
 
-    int ATT_Multiplier_Base;
-    int DEF_Multiplier_Base;
+    float ATT_Multiplier_Base;
+    float DEF_Multiplier_Base;
 
-    int ATT_Multiplier;
-    int DEF_Multiplier;
+    float ATT_Multiplier;
+    float DEF_Multiplier;
 
 }t_perso;
 
@@ -70,7 +70,7 @@ void setTankStats(t_perso *character);
 void setWizardStats(t_perso *character);
 void setAssassinStats(t_perso *character);
 void setSupportStats(t_perso *character);
-void characterMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
+
 
 
 #endif // HEADER_H_INCLUDED
