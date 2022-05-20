@@ -6,12 +6,12 @@ int main()
 {
     InitAllegro();
     int i,j,cmpt;
-    t_carre plateau[8][8];
+    t_carre plateau[12][12];
     BITMAP*doublebuffer;
+    BITMAP*obstacle;
     t_perso ninja[4];
-    int nbjoueurs;
-    int tourx,toury;
-
+    int nbjoueurs=0;
+    int tour=0;
     int numimage;
     int comptfond;
     char nomfichier[100];
@@ -22,6 +22,28 @@ int main()
     int initplayer=0;
     int undermenu=0;
 
+    int persoimg[4]={0,0,0,0};
+    int persotmpimg[4]={8,10,12,14};
+    int imageperso[4]={0,0,0,0};
+
+    srand(time(NULL));
+
+    for(i=0;i<12;i++)
+    {
+        for(j=0;j<12;j++)
+        {
+            plateau[j][i].numx=j;
+            plateau[j][i].numy=i;
+            plateau[j][i].x=137+(j*48);
+            plateau[j][i].y=37+(i*48);
+            plateau[j][i].obstacle=0;
+        }
+    }
+
+    generationobstacles(plateau);
+    obstacle=create_bitmap(20,48);
+    rectfill(obstacle,0,600,800,0,makecol(0,255,0));
+
 
     doublebuffer=create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(doublebuffer);
@@ -29,6 +51,17 @@ int main()
     BITMAP* fondmenu[48];
     BITMAP* playbutton[2];
     BITMAP*selectplayer[3];
+    BITMAP* fondjeu;
+    BITMAP* tree;
+    BITMAP* cursor;
+    BITMAP* fichearcher;
+    BITMAP* ficheassassin;
+    BITMAP* fichetank;
+    BITMAP* fichemage;
+    BITMAP* archer[24];
+    BITMAP* mage[24];
+    BITMAP* tank[24];
+    BITMAP* assassin[24];
 
     SAMPLE *menusong = load_wav("menusong.wav");
     if (!menusong)
@@ -74,19 +107,79 @@ int main()
             exit(EXIT_FAILURE);
         }
 
-    for(i=0;i<8;i++)
+    tree=load_bitmap("image/images layout/tree.bmp",NULL);
+    if (!tree){
+            allegro_message("pas pu trouver tree");
+            exit(EXIT_FAILURE);
+        }
+    fondjeu=load_bitmap("image/images layout/grass.bmp",NULL);
+    if (!fondjeu){
+            allegro_message("pas pu trouver fondjeu");
+            exit(EXIT_FAILURE);
+        }
+
+    cursor=load_bitmap("image/images layout/cursor.bmp",NULL);
+    if (!cursor){
+            allegro_message("pas pu trouver cursor");
+            exit(EXIT_FAILURE);
+        }
+
+    fichearcher=load_bitmap("image/images perso/archer.bmp",NULL);
+    if (!fichearcher){
+            allegro_message("pas pu trouver fiche archer");
+            exit(EXIT_FAILURE);
+        }
+    for(int i=0;i<24;i++)
     {
-        for(j=0;j<8;j++)
-        {
-            plateau[j][i].numx=j;
-            plateau[j][i].numy=i;
-            plateau[j][i].x=137+(j*74);
-            plateau[j][i].y=37+(i*74);
-            plateau[j][i].obstacle=0;
+        archer[i]=recup_sprites(fichearcher,50,50,0,0,4,i);
+        if (!archer[i]){
+            allegro_message("pas pu trouver archer[%d]",i);
+            exit(EXIT_FAILURE);
         }
     }
 
-    plateau[4][4].obstacle=1;
+    ficheassassin=load_bitmap("image/images perso/assassin.bmp",NULL);
+    if (!ficheassassin){
+            allegro_message("pas pu trouver fiche assassin");
+            exit(EXIT_FAILURE);
+        }
+    for(int i=0;i<24;i++)
+    {
+        assassin[i]=recup_sprites(ficheassassin,50,50,0,0,4,i);
+        if (!assassin[i]){
+            allegro_message("pas pu trouver assassin[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    fichemage=load_bitmap("image/images perso/mage.bmp",NULL);
+    if (!fichemage){
+            allegro_message("pas pu trouver fiche mage");
+            exit(EXIT_FAILURE);
+        }
+    for(int i=0;i<24;i++)
+    {
+        mage[i]=recup_sprites(fichemage,50,50,0,0,4,i);
+        if (!mage[i]){
+            allegro_message("pas pu trouver mage[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    fichetank=load_bitmap("image/images perso/tank.bmp",NULL);
+    if (!fichetank){
+            allegro_message("pas pu trouver fiche tank");
+            exit(EXIT_FAILURE);
+        }
+    for(int i=0;i<24;i++)
+    {
+        tank[i]=recup_sprites(fichetank,50,50,0,0,4,i);
+        if (!tank[i]){
+            allegro_message("pas pu trouver tank[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
 
 
 
@@ -112,7 +205,7 @@ int main()
             {
                 numimage=0;
             }
-            if(mouse_x>307 && mouse_x<476 && mouse_y>241 && mouse_y<331)
+            if(mouse_x>307 && mouse_x<476 && mouse_y>241 && mouse_y<331 && undermenu==0)
             {
                 cmpt=1;
             }
@@ -123,6 +216,7 @@ int main()
             if(cmpt==1 && mouse_b&1)
             {
                 undermenu=1;
+                position_mouse(0,0);
             }
 
             blit(fondmenu[numimage],doublebuffer,0,0,0,0,SCREEN_W,SCREEN_H);
@@ -154,12 +248,13 @@ int main()
             }
             if(undermenu==2)
             {
-
+                inmenu=0;
+                ingame=1;
             }
 
 
 
-            show_mouse(doublebuffer);
+
         }
         if(inmenu==0)
         {
@@ -169,51 +264,107 @@ int main()
 
         if(ingame==1)
         {
+
             if(initplayer==0)
             {
+                for(int i=0;i<nbjoueurs;i++)
+                {
+                    ninja[i]=initperso();
+                }
                 if(nbjoueurs==2)
                 {
-                    ninja[0].pos=plateau[0][4];
-                    ninja[1].pos=plateau[7][3];
+                    ninja[0].pos=plateau[0][6];
+                    ninja[1].pos=plateau[11][5];
                 }
-                else
+                else if(nbjoueurs==3)
                 {
-                    if(nbjoueurs==3)
+                    ninja[0].pos=plateau[0][6];
+                    ninja[1].pos=plateau[6][0];
+                    ninja[2].pos=plateau[11][5];
+
+                    ninja[1].classe=1;//test
+                    ninja[2].classe=2;//test
+                }
+                else if(nbjoueurs==4)
+                {
+                    ninja[0].pos=plateau[0][6];
+                    ninja[1].pos=plateau[6][0];
+                    ninja[2].pos=plateau[11][5];
+                    ninja[3].pos=plateau[5][11];
+                }
+
+                for(int i=0;i<nbjoueurs;i++)
+                {
+                    for(int j=0;j<24;j++)
                     {
-                    ninja[0].pos=plateau[0][4];
-                    ninja[1].pos=plateau[7][3];
-                    ninja[0].pos=plateau[5][2];
-                    }
-                    else
-                    {
-                        ninja[0].pos=plateau[0][4];
-                        ninja[1].pos=plateau[4][0];
-                        ninja[2].pos=plateau[7][3];
-                        ninja[3].pos=plateau[3][7];
+                        if(ninja[i].classe==0)
+                        {
+                           ninja[i].img[j]=archer[j];
+                        }
+                        if(ninja[i].classe==1)
+                        {
+                           ninja[i].img[j]=tank[j];
+                        }
+                        if(ninja[i].classe==2)
+                        {
+                           ninja[i].img[j]=mage[j];
+                        }
+                        if(ninja[i].classe==3)
+                        {
+                           ninja[i].img[j]=assassin[j];
+                        }
+
                     }
                 }
-                initplayer++;
+
+                initplayer=1;
+                position_mouse(0,0);
+
             }
-            tourx=0;
-            toury=0;
-            for(j=0;j<nbjoueurs;j++)
-            {
-                while(tourx!=1 || toury!=1)
-                {
-                    clear_bitmap(doublebuffer);
-                    rectfill(doublebuffer,0,600,800,0,makecol(255,255,255));
-                    deplacementloop(doublebuffer,&ninja[j],plateau,&tourx,&toury);
 
-                    for(i=0;i<nbjoueurs;i++)
+            }
+
+
+        if(ingame==1 && initplayer==1)
+        {
+
+
+        clear_bitmap(doublebuffer);
+        rectfill(doublebuffer,0,600,800,0,makecol(255,255,255));
+        blit(fondjeu,doublebuffer,0,0,0,0,800,600);
+        deplacementloop(doublebuffer,&ninja[tour%nbjoueurs],plateau,&tour);
+
+            for(i=0;i<nbjoueurs;i++)
+            {
+                persoimg[i]++;
+
+                if (persoimg[i]>=persotmpimg[i])
+                {
+                    persoimg[i]=0;
+                    imageperso[i]++;
+                }
+                if (imageperso[i]>=4)
+                {
+                    imageperso[i]=0;
+                }
+
+                draw_sprite(doublebuffer,ninja[i].img[imageperso[i]],ninja[i].pos.x-25,ninja[i].pos.y-25);
+                }
+
+                for(i=0;i<12;i++)
+                {
+                    for(j=0;j<12;j++)
                     {
-                        draw_sprite(doublebuffer,ninja[i].img,ninja[i].pos.x-18,ninja[i].pos.y-37);
+                        if(plateau[i][j].obstacle==1)
+                        {
+                            draw_sprite(doublebuffer,tree,plateau[i][j].x-42,plateau[i][j].y-80);
+                        }
                     }
                 }
-
-
-                }
+                affichagepointer(doublebuffer,plateau,cursor);
         }
 
+        show_mouse(doublebuffer);
         blit(doublebuffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         rest(5);
     }
@@ -221,6 +372,28 @@ int main()
     for(int i=0;i<48;i++)
     {
         destroy_bitmap(fondmenu[i]);
+    }
+    destroy_bitmap(fichearcher);
+    destroy_bitmap(fichemage);
+    destroy_bitmap(fichetank);
+    destroy_bitmap(ficheassassin);
+    destroy_bitmap(tree);
+    destroy_bitmap(fondjeu);
+    for(int i=0;i<24;i++)
+    {
+        destroy_bitmap(archer[i]);
+    }
+    for(int i=0;i<24;i++)
+    {
+        destroy_bitmap(tank[i]);
+    }
+    for(int i=0;i<24;i++)
+    {
+        destroy_bitmap(mage[i]);
+    }
+    for(int i=0;i<24;i++)
+    {
+        destroy_bitmap(assassin[i]);
     }
     destroy_sample(menusong);
 
