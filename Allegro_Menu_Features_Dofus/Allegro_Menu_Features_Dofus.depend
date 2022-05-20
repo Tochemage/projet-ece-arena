@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1653069033 source:c:\users\dmano\desktop\allegro_menu_features_dofus\main.c
+	"header.h"
+
+1653069691 source:c:\users\dmano\desktop\allegro_menu_features_dofus\sousprog.c
+	"header.h"
+
+1653068678 c:\users\dmano\desktop\allegro_menu_features_dofus\header.h
+	<allegro.h>
+	<winalleg.h>
+	<stdbool.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<conio.h>
+
