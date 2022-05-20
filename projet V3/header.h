@@ -23,7 +23,7 @@ typedef struct weapon
 
 typedef struct perso
 {
-    BITMAP*img;
+    BITMAP*img[24];
     t_carre pospre;
     t_carre pos;
     int classe;
@@ -67,13 +67,17 @@ t_perso*saisi(int*nbjoueurs);
 
 void InitAllegro();
 
+BITMAP* recup_sprites( BITMAP*scr,int w,int h,int startx,int starty,int col,int element);
+
 t_perso initperso();
 
 void remptab(t_perso tab[4],int*nbjoueurs);
 
 void deplacement(t_perso*seven, t_carre tab[12][12],int*tour);
 
-void generationobstacles(int tab[2][5],t_carre tabb[12][12]);
+void generationobstacles(t_carre tabb[12][12]);
+
+void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree);
 
 
 /************ Character stats setup ************/
@@ -85,11 +89,13 @@ void setAssassinStats(t_perso *character);
 void setSupportStats(t_perso *character);
 
 void attackingprocess(t_perso*attacker, t_perso*defender);
+int checkifnear(t_perso*attacker, t_perso*defender);
 
 void setArc(t_weapon *arme);
 void setKatana(t_weapon *arme);
 void setBatonMagique(t_weapon *arme);
 void setDague(t_weapon *arme);
+
 
 
 
