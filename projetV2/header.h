@@ -71,6 +71,10 @@ void setWizardStats(t_perso *character);
 void setAssassinStats(t_perso *character);
 void setSupportStats(t_perso *character);
 
+/************ Buttons ************/
+
+int button_maker(int posX, int posY, BITMAP *confirm, BITMAP *buffer, int mouse_prev);
+
 
 
 #endif // HEADER_H_INCLUDED

@@ -23,6 +23,7 @@ int main()
     int undermenu=0;
 
     t_perso joe;
+    joe.classe=-1;
 
 
     doublebuffer=create_bitmap(SCREEN_W,SCREEN_H);
@@ -94,6 +95,29 @@ int main()
 
     while(!key[KEY_ESC])
     {
+
+        switch(joe.classe)
+        {
+            case -1:
+                printf("Joe is undefined\n");
+                break;
+
+            case 0:
+                printf("Joe is ninja\n");
+                break;
+
+            case 1:
+                printf("Joe is samurai\n");
+                break;
+
+            case 2:
+                printf("Joe is wizard\n");
+                break;
+
+            case 3:
+                printf("Joe is apprentice\n");
+                break;
+        }
 
         if(inmenu==1)
         {

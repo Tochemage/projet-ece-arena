@@ -68,10 +68,10 @@ void setSupportStats(t_perso *character)
     character->DEF_Multiplier_Base=1.00;
 }
 
-void characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
+int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
 {
-    int cmpt=0, imnum, desc_num, desc_active=0, mouse_prev=1;
-    BITMAP *buffer, *ninja, *tank, *wizard, *support, *desc[4];
+    int cmpt=0, imnum, desc_num, desc_active=0, mouse_prev=1, status=0, back_status=0, return_status=0;
+    BITMAP *buffer, *ninja, *tank, *wizard, *support, *desc[4], *confirm, *back;
     buffer=create_bitmap(SCREEN_W, SCREEN_H);
 
     ninja=load_bitmap("./image/big_characters/assassin.bmp", NULL);
@@ -82,6 +82,9 @@ void characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
     desc[1]=load_bitmap("./image/big_characters/samurai_desc.bmp", NULL);
     desc[2]=load_bitmap("./image/big_characters/pretre_desc.bmp", NULL);
     desc[3]=load_bitmap("./image/big_characters/apprenti_desc.bmp", NULL);
+    confirm=load_bitmap("./image/menu/button/confirm.bmp", NULL);
+    back=load_bitmap("./image/menu/button/back.bmp", NULL);
+
 
 
     if(ninja==NULL || tank==NULL || wizard==NULL)
@@ -90,9 +93,8 @@ void characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
         exit(EXIT_FAILURE);
     }
 
-    while(!key[KEY_ENTER])
+    while(!key[KEY_ENTER] && status==0)
     {
-        printf("%d  %d\n", desc_active, mouse_b);
         blit(fondmenu[imnum], buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         cmpt=(cmpt+1)%6;
         if(cmpt==0)
@@ -155,21 +157,44 @@ void characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
                 }
             }
         }
-        else if(desc_active=1)
+        else if(desc_active==1)
         {
-            masked_blit(desc[desc_num], buffer, 0,0,200,100,desc[desc_num]->w,desc[desc_num]->h);
+            masked_blit(desc[desc_num], buffer, 0,0,120,100,120+desc[desc_num]->w,100+desc[desc_num]->h);
+            status=button_maker(640, 520, confirm, buffer, mouse_prev);
 
+
+            /*
             if(mouse_prev==0 && mouse_b==2)
             {
                 desc_active=0;
             }
+            */
         }
 
+        back_status=button_maker(140, 520, back, buffer, mouse_prev);
 
+        if(back_status!=0)
+        {
+            if(desc_active==1)
+            {
+                desc_active=0;
+                back_status=0;
+            }
+            else
+            {
+                status=2;
+            }
+        }
 
         blit(buffer, screen, 0,0,0,0, SCREEN_W, SCREEN_H);
         mouse_prev=mouse_b;
         rest(5);
     }
-
+    if(status==1)
+    {
+        character->classe=desc_num;
+        return_status=1;
+    }
+    //classe modifié -> status 1, sinon 0
+    return return_status;
 }
