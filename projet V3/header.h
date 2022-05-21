@@ -12,6 +12,7 @@ typedef struct carre
     int x;
     int y;
     int obstacle;
+    int autrejoueur;
 }t_carre;
 
 typedef struct weapon
@@ -52,14 +53,14 @@ typedef struct perso
     float ATT_Multiplier;
     float DEF_Multiplier;
 
-    t_weapon *arme;
+    t_weapon arme;
 }t_perso;
 
 
 
 ////////////////proto////////////////
 
-void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour);
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso* otherperso[4]);
 
 t_perso*ajout(t_perso*oldlist,int num);
 
@@ -73,11 +74,13 @@ t_perso initperso();
 
 void remptab(t_perso tab[4],int*nbjoueurs);
 
-void deplacement(t_perso*seven, t_carre tab[12][12],int*tour);
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso*autreperso[4]);
 
 void generationobstacles(t_carre tabb[12][12]);
 
-void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree);
+void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_perso*player);
+
+void showmovement(t_perso* ninja,BITMAP* doublebuffer, BITMAP* canmove, t_carre plateau[12][12]);
 
 
 /************ Character stats setup ************/

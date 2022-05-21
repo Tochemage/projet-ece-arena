@@ -1,18 +1,19 @@
 #include "header.h"
 
 
-void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour)
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso* otherperso[4])
 {
+    /*
     int i,j;
     for(i=0;i<12;i++)
         {
             for(j=0;j<12;j++)
             {
-                rect(doublebuffer,plateau[j][i].x-24,plateau[j][i].y+24,plateau[j][i].x+24,plateau[j][i].y-24,makecol(0,0,0));
+                //rect(doublebuffer,plateau[j][i].x-24,plateau[j][i].y+24,plateau[j][i].x+24,plateau[j][i].y-24,makecol(0,0,0));
             }
         }
-
-        deplacement(ninja,plateau,tour);
+    */
+        deplacement(ninja,plateau,tour,otherperso);
 }
 
 t_perso*ajout(t_perso*oldlist,int num)
@@ -71,19 +72,30 @@ void remptab(t_perso tab[4],int*nbjoueurs)
     }
 }
 
-void deplacement(t_perso*seven, t_carre tab[12][12],int*tour)
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso*autreperso[4])
 {
     int i,j;
+    int casediffx;
+    int casediffy;
     if(mouse_b&1 && seven->deplacementx==(-24) && seven->deplacementy==(-24))
     {
         for(j=0;j<12;j++)
         {
             for(i=0;i<12;i++)
             {
-                if((mouse_x-tab[i][j].x)<24 && (mouse_x-tab[i][j].x)>(-24) && (mouse_y-tab[i][j].y)<24 && (mouse_y-tab[i][j].y)>(-24) && tab[i][j].obstacle==0)
+                if((mouse_x-tab[i][j].x)<24 && (mouse_x-tab[i][j].x)>(-24) && (mouse_y-tab[i][j].y)<24 && (mouse_y-tab[i][j].y)>(-24) && tab[i][j].obstacle==0 && tab[i][j].autrejoueur==0)
                 {
-                    seven->deplacementx=i;
-                    seven->deplacementy=j;
+
+                    casediffx=abs(seven->pos.numx-tab[i][j].numx);
+                    casediffy=abs(seven->pos.numy-tab[i][j].numy);
+                    if((((seven->Stamina)/10)-(casediffx+casediffy))>=0)
+                    {
+
+                        seven->deplacementx=i;
+                        seven->deplacementy=j;
+
+
+                    }
                 }
             }
         }
@@ -191,13 +203,13 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
 
     if(isnear==1)
     {
-    switch(attacker->arme->sortilege)
+    switch(attacker->arme.sortilege)
     {
     case 0:
         {
-            if(success*attacker->arme->accuracy>50)
+            if(success*attacker->arme.accuracy>50)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -207,9 +219,9 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
         }
         case 1:
         {
-            if(success*attacker->arme->accuracy>60)
+            if(success*attacker->arme.accuracy>60)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -219,9 +231,9 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
         }
         case 2:
         {
-            if(success*attacker->arme->accuracy>65)
+            if(success*attacker->arme.accuracy>65)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -231,9 +243,9 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
         }
         case 3:
         {
-            if(success*attacker->arme->accuracy>67)
+            if(success*attacker->arme.accuracy>67)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -259,7 +271,7 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
 
 void attackingviasort(t_perso*attacker,t_perso*defender)
 {
-    switch(attacker->arme->sortilege)
+    switch(attacker->arme.sortilege)
     {
 
     }
@@ -281,117 +293,6 @@ void generationobstacles(t_carre tabb[12][12])
     }
 }
 
-void deplacementsave(t_perso*seven, t_carre tab[12][12],int*tour,int suivi[50])
-{
-    int i,j;
-    if(mouse_b&1 && seven->deplacementx==(-24) && seven->deplacementy==(-24))
-    {
-        for(j=0;j<12;j++)
-        {
-            for(i=0;i<12;i++)
-            {
-                if((mouse_x-tab[i][j].x)<24 && (mouse_x-tab[i][j].x)>(-24) && (mouse_y-tab[i][j].y)<24 && (mouse_y-tab[i][j].y)>(-24) && tab[i][j].obstacle==0)
-                {
-                    seven->deplacementx=i;
-                    seven->deplacementy=j;
-                }
-            }
-        }
-    }
-    if(seven->deplacementy!=(-24) || seven->deplacementx!=(-24))
-        {
-            seven->pospre=seven->pos;
-            rest(1);
-        }
-
-
-    if(seven->deplacementx!=(-24))
-    {
-        if(seven->pos.numx<seven->deplacementx)
-        {
-            seven->pos=tab[seven->pos.numx +1][seven->pos.numy];
-        }
-        else if(seven->pos.numx>seven->deplacementx)
-        {
-            seven->pos=tab[seven->pos.numx -1][seven->pos.numy];
-        }
-        else
-        {
-            seven->deplacementxre=seven->deplacementx;
-            seven->deplacementx=(-24);
-            if(seven->deplacementy==(-24))
-            {
-                (*tour)++;
-            }
-        }
-    }
-    if(seven->deplacementy!=(-24))
-    {
-        if(seven->pos.numy<seven->deplacementy)
-        {
-            seven->pos=tab[seven->pos.numx][seven->pos.numy +1];
-        }
-        else if(seven->pos.numy>seven->deplacementy)
-        {
-            seven->pos=tab[seven->pos.numx][seven->pos.numy -1];
-        }
-        else
-        {
-            seven->deplacementyre=seven->deplacementy;
-            seven->deplacementy=(-24);
-            if(seven->deplacementx==(-24))
-            {
-                (*tour)++;
-            }
-        }
-    }
-
-    if(seven->pos.obstacle>=1)
-    {
-        if(seven->deplacementx==(-24))
-        {
-            seven->deplacementx=seven->deplacementxre;
-        }
-        if(seven->deplacementy==(-24))
-        {
-            seven->deplacementy=seven->deplacementyre;
-        }
-        if(seven->pospre.numx<seven->pos.numx && seven->pospre.numy<seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx][seven->pospre.numy+1];
-        }
-        else if(seven->pospre.numx<seven->pos.numx && seven->pospre.numy>seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx+1][seven->pospre.numy];
-        }
-        else if(seven->pospre.numx<seven->pos.numx && seven->pospre.numy==seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx][seven->pospre.numy+1];
-        }
-        else if(seven->pospre.numx>seven->pos.numx && seven->pospre.numy<seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx-1][seven->pospre.numy];
-        }
-        else if(seven->pospre.numx>seven->pos.numx && seven->pospre.numy>seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx][seven->pospre.numy-1];
-        }
-        else if(seven->pospre.numx>seven->pos.numx && seven->pospre.numy==seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx][seven->pospre.numy-1];
-        }
-        else if(seven->pospre.numx==seven->pos.numx && seven->pospre.numy<seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx-1][seven->pospre.numy];
-        }
-        else if(seven->pospre.numx==seven->pos.numx && seven->pospre.numy>seven->pos.numy)
-        {
-            seven->pos=tab[seven->pospre.numx+1][seven->pospre.numy];
-        }
-
-    }
-
-}
 
 
 int checkifnear(t_perso*attacker, t_perso*defender)
@@ -410,16 +311,43 @@ int checkifnear(t_perso*attacker, t_perso*defender)
     return isnear;
 }
 
-void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree)
+void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_perso*player)
 {
+    int casediffx,casediffy;
     for(int j=0;j<12;j++)
         {
             for(int i=0;i<12;i++)
             {
                 if((mouse_x-tab[i][j].x)<24 && (mouse_x-tab[i][j].x)>(-24) && (mouse_y-tab[i][j].y)<24 && (mouse_y-tab[i][j].y)>(-24) && tab[i][j].obstacle==0)
                 {
-                    draw_sprite(doublebuffer,tree,tab[i][j].x-25,tab[i][j].y-25);
+                    casediffx=abs(player->pos.numx-tab[i][j].numx);
+                    casediffy=abs(player->pos.numy-tab[i][j].numy);
+                    if((((player->Stamina)/10)-(casediffx+casediffy))>=0)
+                    {
+                    draw_sprite(doublebuffer,pointer,tab[i][j].x-25,tab[i][j].y-25);
+                    }
                 }
             }
         }
+}
+
+void showmovement(t_perso* ninja,BITMAP* doublebuffer, BITMAP* canmove, t_carre plateau[12][12])
+{
+    //int capmove=ninja->Stamina;
+    for(int i=0;i>ninja->Stamina+1;i++)
+    {
+        if(ninja->pos.numx+i<=12 && ninja->pos.numx+i>=0 && plateau[ninja->pos.numx+i][ninja->pos.numy].obstacle==0)
+        {
+            draw_sprite(doublebuffer,canmove,ninja->pos.x+(48*i)-25,ninja->pos.y-24);
+            draw_sprite(doublebuffer,canmove,ninja->pos.x-(48*i)-25,ninja->pos.y-24);
+        }
+    }
+    for(int i=0;i>ninja->Stamina;i++)
+    {
+        if(ninja->pos.numy+i<24 && ninja->pos.numy+i>-24)
+        {
+            draw_sprite(doublebuffer,canmove,ninja->pos.x-24,ninja->pos.y-(48*i));
+            draw_sprite(doublebuffer,canmove,ninja->pos.x-24,ninja->pos.y+(48*i));
+        }
+    }
 }

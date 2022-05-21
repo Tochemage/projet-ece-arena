@@ -20,7 +20,7 @@ void setTankStats(t_perso *character)
 void setWizardStats(t_perso *character)
 {
     character->PV=50;
-    character->Stamina=100;
+    character->Stamina=70;
     character->Faith=150;
 
     character->PV_Base=50;
@@ -37,7 +37,7 @@ void setWizardStats(t_perso *character)
 void setAssassinStats(t_perso *character)
 {
     character->PV=100;
-    character->Stamina=150;
+    character->Stamina=90;
     character->Faith=50;
 
     character->PV_Base=100;
@@ -54,7 +54,7 @@ void setAssassinStats(t_perso *character)
 void setSupportStats(t_perso *character)
 {
     character->PV=100;
-    character->Stamina=100;
+    character->Stamina=70;
     character->Faith=100;
 
     character->PV_Base=100;
