@@ -44,7 +44,29 @@ t_perso*saisi(int*nbjoueurs)
     return tabjoueur;
 }
 
+void InitAllegro()
+{
+    allegro_init();
+    set_color_depth(desktop_color_depth());
+    if((set_gfx_mode(GFX_AUTODETECT_WINDOWED,800,600,0,0))!=0)
+    {
+        allegro_message("Pb de mode graphique") ;
+        allegro_exit();
+        exit(EXIT_FAILURE);
+    }
+    set_alpha_blender();
+    drawing_mode(DRAW_MODE_TRANS, 0, 0, 0);
+    install_keyboard();
+	install_mouse();
 
+	install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, 0);
+	set_display_switch_mode(SWITCH_BACKGROUND);
+
+	enable_hardware_cursor();
+	show_os_cursor(MOUSE_CURSOR_ALLEGRO);
+	select_mouse_cursor(MOUSE_CURSOR_ARROW);
+	show_mouse(screen);
+}
 
 t_perso initperso()
 {

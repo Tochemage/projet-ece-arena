@@ -43,6 +43,8 @@ int main()
     generationobstacles(plateau);
     obstacle=create_bitmap(20,48);
     rectfill(obstacle,0,600,800,0,makecol(0,255,0));
+    t_perso joe;
+    joe.classe=-1;
 
 
     doublebuffer=create_bitmap(SCREEN_W,SCREEN_H);
@@ -63,7 +65,7 @@ int main()
     BITMAP* tank[24];
     BITMAP* assassin[24];
 
-    SAMPLE *menusong = load_wav("menusong.wav");
+    SAMPLE *menusong = load_wav("./menusong.wav");
     if (!menusong)
     {
         allegro_message("error loading");
@@ -186,11 +188,34 @@ int main()
     while(!key[KEY_ESC])
     {
 
+        switch(joe.classe)
+        {
+            case -1:
+                printf("Joe is undefined\n");
+                break;
+
+            case 0:
+                printf("Joe is ninja\n");
+                break;
+
+            case 1:
+                printf("Joe is samurai\n");
+                break;
+
+            case 2:
+                printf("Joe is wizard\n");
+                break;
+
+            case 3:
+                printf("Joe is apprentice\n");
+                break;
+        }
+
         if(inmenu==1)
         {
             if(songplaying==0)
             {
-                play_sample(menusong,255,123,1000,1);
+                play_sample(menusong,200,123,1000,1);
                 songplaying=1;
             }
 
@@ -227,6 +252,9 @@ int main()
             }
             if(undermenu==1)
             {
+                characterMenuScreen(&joe, fondmenu);
+                undermenu=0;
+                /*
                 draw_sprite(doublebuffer,selectplayer[0],290,230);
                 draw_sprite(doublebuffer,selectplayer[1],290,350);
                 draw_sprite(doublebuffer,selectplayer[2],290,470);
@@ -245,6 +273,7 @@ int main()
                 nbjoueurs=4;
                 undermenu=2;
                 }
+                */
             }
             if(undermenu==2)
             {

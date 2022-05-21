@@ -54,11 +54,18 @@ void InitAllegro()
         allegro_exit();
         exit(EXIT_FAILURE);
     }
+    set_alpha_blender();
+    drawing_mode(DRAW_MODE_TRANS, 0, 0, 0);
     install_keyboard();
 	install_mouse();
-	show_mouse(screen);
+
 	install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, 0);
-	set_display_switch_mode()
+	set_display_switch_mode(SWITCH_BACKGROUND);
+
+	enable_hardware_cursor();
+	show_os_cursor(MOUSE_CURSOR_ALLEGRO);
+	select_mouse_cursor()
+	show_mouse(screen);
 }
 
 t_perso initperso()
