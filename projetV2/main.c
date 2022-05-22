@@ -227,6 +227,11 @@ int main()
 
     while(!key[KEY_ESC])
     {
+        set_gfx_mode(GFX_AUTODETECT_WINDOWED,1500,1050,0,0);
+        menuDeJeu();
+
+
+
 
         /*
         switch(joe.classe)
@@ -274,7 +279,7 @@ int main()
                 printf("bow\n");
                 break;
         }
-        */
+
 
         if(inmenu==1)
         {
@@ -321,7 +326,7 @@ int main()
 
 
                 undermenu=0;
-                /*
+                /
                 draw_sprite(doublebuffer,selectplayer[0],290,230);
                 draw_sprite(doublebuffer,selectplayer[1],290,350);
                 draw_sprite(doublebuffer,selectplayer[2],290,470);
@@ -340,7 +345,7 @@ int main()
                 nbjoueurs=4;
                 undermenu=2;
                 }
-                */
+
             }
             if(undermenu==2)
             {
@@ -394,7 +399,7 @@ int main()
                     ninja[3].pos=plateau[5][11];
                 }
 
-                /*
+
                 for(int i=0;i<nbjoueurs;i++)
                 {
                     for(int j=0;j<24;j++)
@@ -442,7 +447,7 @@ int main()
                     }
                     //choixarme++;
                 }
-                */
+
 
                 for(int i=0;i<nbjoueurs;i++)
                 {
@@ -474,6 +479,7 @@ int main()
             }
 
             }
+            */
 
 
         if(ingame==1 && initplayer==1)

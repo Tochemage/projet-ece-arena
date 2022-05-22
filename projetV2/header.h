@@ -27,20 +27,7 @@ typedef struct sauvegarde
     t_joueur tabjoueur[4];
 } t_sauvegarde;
 
-void menuDeJeu();
-void MenuDesJoueurs(int w,int h,int nbDePartie);
 
-void *_allocator(size_t element, size_t typeSize);
-char *ajoutLettre( char *input, const char c);
-void saisieLesNoms(int w,int h,int nbj, t_sauvegarde * partie,BITMAP* menuScreen );
-void nomDeJoueurs(int w,int h,int nbDeJoueurs,t_sauvegarde * newPartie);
-void Regles(int w,int h);
-void Options(int w,int h);
-void initPartie(t_sauvegarde *PartieDeSauvegarde,int nbJoueurs/*,int nbDePartie*/);
-void Changement(bool * variablebool);
-void Score(int w,int h);
-t_sauvegarde LireDonneePartie();
-void EcrireDonneePartie(t_sauvegarde *PartieDeSauvegarde);
 
 
 typedef struct carre
@@ -94,6 +81,24 @@ typedef struct perso
     t_weapon arme;
     int weapon_num;
 }t_perso;
+
+
+
+
+void menuDeJeu();
+void MenuDesJoueurs(int w,int h,int nbDePartie);
+
+void *_allocator(size_t element, size_t typeSize);
+char *ajoutLettre( char *input, const char c);
+void saisieLesNoms(int w,int h,int nbj, t_sauvegarde * partie,BITMAP* menuScreen );
+void nomDeJoueurs(int w,int h,int nbDeJoueurs,t_sauvegarde * newPartie);
+void Regles(int w,int h);
+void Options(int w,int h);
+void initPartie(t_sauvegarde *PartieDeSauvegarde,int nbJoueurs/*,int nbDePartie*/);
+void Changement(bool * variablebool);
+void Score(int w,int h);
+t_sauvegarde LireDonneePartie();
+void EcrireDonneePartie(t_sauvegarde *PartieDeSauvegarde);
 
 
 ////////////////proto////////////////

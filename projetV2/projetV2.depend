@@ -107,11 +107,15 @@
 1653242217 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\button_features.c
 	"header.h"
 
-1653242217 c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\header.h
+1653245417 c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\header.h
 	<stdio.h>
 	<stdlib.h>
 	<allegro.h>
 	<time.h>
+	<winalleg.h>
+	<stdbool.h>
+	<string.h>
+	<conio.h>
 
 1653242217 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\characters.c
 	"header.h"
@@ -119,12 +123,15 @@
 1653242225 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\gameprog.c
 	"header.h"
 
-1653243356 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\main.c
+1653245091 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\main.c
 	"header.h"
 
 1653242217 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\progallegro.c
 	"header.h"
 
 1653242217 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\weapons.c
+	"header.h"
+
+1653244814 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\sousprog.c
 	"header.h"
 

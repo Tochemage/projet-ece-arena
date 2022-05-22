@@ -47,6 +47,9 @@
 		<Unit filename="progallegro.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="sousprog.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="weapons.c">
 			<Option compilerVar="CC" />
 		</Unit>

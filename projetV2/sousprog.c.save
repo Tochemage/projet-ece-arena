@@ -560,7 +560,7 @@ char *ajoutLettre( char *input, const char c)
 void saisieLesNoms(int w,int h,int nbj, t_sauvegarde * partie,BITMAP* menuScreen )
 {
     FONT *font1 =load_font("font1.pcx",NULL,NULL);
-
+    
     blit(menuScreen,screen,0,0,0,0,w,h);
 
     int x = 480;
@@ -707,12 +707,11 @@ void nomDeJoueurs(int w,int h,int nbDeJoueurs,t_sauvegarde * newPartie)
             menuImg = load_bitmap("arena/joueur/saisie/2.bmp",NULL);
             if((mouse_b&1)==1)
             {
-
                 clear_keybuf();
                 //rest(40);
                 blit(menuImg,menuScreen,0,0,0,0,w,h);
                 saisieLesNoms(w,h,nbDeJoueurs,newPartie,menuScreen);
-
+                p
 
                 isDone=true;
             }
