@@ -213,13 +213,13 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
 
     if(isnear==1)
     {
-    switch(attacker->arme->sortilege)
+    switch(attacker->arme.sortilege)
     {
     case 0:
         {
-            if(success*attacker->arme->accuracy>50)
+            if(success*attacker->arme.accuracy>50)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -229,9 +229,9 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
         }
         case 1:
         {
-            if(success*attacker->arme->accuracy>60)
+            if(success*attacker->arme.accuracy>60)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -241,9 +241,9 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
         }
         case 2:
         {
-            if(success*attacker->arme->accuracy>65)
+            if(success*attacker->arme.accuracy>65)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -253,9 +253,9 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
         }
         case 3:
         {
-            if(success*attacker->arme->accuracy>67)
+            if(success*attacker->arme.accuracy>67)
             {
-                damage=attacker->arme->WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
+                damage=attacker->arme.WEAP_attack*attacker->ATT_Multiplier*50*defender->DEF_Multiplier;
             }
             else
             {
@@ -281,7 +281,7 @@ void attackingprocess(t_perso*attacker, t_perso*defender)
 
 void attackingviasort(t_perso*attacker,t_perso*defender)
 {
-    switch(attacker->arme->sortilege)
+    switch(attacker->arme.sortilege)
     {
 
     }
@@ -444,4 +444,52 @@ void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree)
                 }
             }
         }
+}
+
+int characterSetupRoutine(t_perso *character, BITMAP *fondmenu[48])
+{
+
+    int mod_status=-1;
+    int mod_status2=-1;
+    int return_status=0;
+
+    while(mod_status!=0 && mod_status2!=1)
+    {
+        mod_status=characterMenuScreen(character, fondmenu);
+
+        if(mod_status==1)
+        {
+            mod_status2=weaponMenuScreen(character, fondmenu);
+        }
+    }
+
+    if(mod_status2==1)
+    {
+        return_status=1;
+
+        switch(character->weapon_num)
+        {
+            case 0:
+                setKatana(&(character->arme));
+                break;
+
+            case 1:
+                setDague(&(character->arme));
+                break;
+
+            case 2:
+                setBatonMagique(&(character->arme));
+                break;
+
+            case 3:
+                setArc(&(character->arme));
+                break;
+        }
+
+        printf("STATS: ATT %f SORT %d ACCURACY %f\n", character->arme.WEAP_attack, character->arme.sortilege, character->arme.accuracy);
+
+
+    }
+
+    return return_status;
 }

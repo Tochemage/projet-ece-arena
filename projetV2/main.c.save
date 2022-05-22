@@ -191,6 +191,7 @@ int main()
     while(!key[KEY_ESC])
     {
 
+        /*
         switch(joe.classe)
         {
             case -1:
@@ -236,6 +237,7 @@ int main()
                 printf("bow\n");
                 break;
         }
+        */
 
         if(inmenu==1)
         {
@@ -278,19 +280,8 @@ int main()
             }
             if(undermenu==1)
             {
-                mod_status=-1;
-                mod_status2=-1;
-                
-                while(mod_status!=0 || mod_status2!=1)
-                {
-                    
-                }
-                mod_status=characterMenuScreen(&joe, fondmenu);
+                characterSetupRoutine(&joe, fondmenu)
 
-                if(mod_status==1)
-                {
-                    weaponMenuScreen(&joe, fondmenu);
-                }
 
                 undermenu=0;
                 /*

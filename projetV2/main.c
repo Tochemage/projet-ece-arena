@@ -26,7 +26,6 @@ int main()
     int persotmpimg[4]={8,10,12,14};
     int imageperso[4]={0,0,0,0};
 
-    int mod_status=0, mod_status2=0;
 
     srand(time(NULL));
 
@@ -191,6 +190,7 @@ int main()
     while(!key[KEY_ESC])
     {
 
+        /*
         switch(joe.classe)
         {
             case -1:
@@ -236,6 +236,7 @@ int main()
                 printf("bow\n");
                 break;
         }
+        */
 
         if(inmenu==1)
         {
@@ -278,18 +279,7 @@ int main()
             }
             if(undermenu==1)
             {
-                mod_status=-1;
-                mod_status2=-1;
-
-                while(mod_status!=0 && mod_status2!=1)
-                {
-                    mod_status=characterMenuScreen(&joe, fondmenu);
-
-                    if(mod_status==1)
-                    {
-                        mod_status2=weaponMenuScreen(&joe, fondmenu);
-                    }
-                }
+                characterSetupRoutine(&joe, fondmenu);
 
 
                 undermenu=0;

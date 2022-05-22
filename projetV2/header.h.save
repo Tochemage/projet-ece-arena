@@ -14,9 +14,16 @@ typedef struct carre
     int obstacle;
 }t_carre;
 
+typedef struct weapon
+{
+    float WEAP_attack;
+    float accuracy;
+    int sortilege;
+}t_weapon;
+
 typedef struct perso
 {
-    BITMAP*img;
+    BITMAP*img[24];
     t_carre pospre;
     t_carre pos;
     int classe;
@@ -28,6 +35,7 @@ typedef struct perso
     struct perso*suivant;
     int num;
 
+
 /************ Character stats************/
 
     int PV_Base;
@@ -38,17 +46,21 @@ typedef struct perso
     int Stamina;
     int Faith;
 
-    int ATT_Multiplier_Base;
-    int DEF_Multiplier_Base;
+    float ATT_Multiplier_Base;
+    float DEF_Multiplier_Base;
 
-    int ATT_Multiplier;
-    int DEF_Multiplier;
+    float ATT_Multiplier;
+    float DEF_Multiplier;
 
+    t_weapon arme;
+    int weapon_num;
 }t_perso;
+
+
 
 ////////////////proto////////////////
 
-deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[8][8],int*tourx,int*toury);
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour);
 
 t_perso*ajout(t_perso*oldlist,int num);
 
@@ -56,11 +68,17 @@ t_perso*saisi(int*nbjoueurs);
 
 void InitAllegro();
 
+BITMAP* recup_sprites( BITMAP*scr,int w,int h,int startx,int starty,int col,int element);
+
 t_perso initperso();
 
 void remptab(t_perso tab[4],int*nbjoueurs);
 
-void deplacement(t_perso*seven, t_carre tab[8][8],int*tourx,int*toury);
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour);
+
+void generationobstacles(t_carre tabb[12][12]);
+
+void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree);
 
 
 /************ Character stats setup ************/
@@ -70,7 +88,25 @@ void setTankStats(t_perso *character);
 void setWizardStats(t_perso *character);
 void setAssassinStats(t_perso *character);
 void setSupportStats(t_perso *character);
-void characterMenuScreen(t_perso *character);
+
+void attackingprocess(t_perso*attacker, t_perso*defender);
+int checkifnear(t_perso*attacker, t_perso*defender);
+
+void setArc(t_weapon *arme);
+void setKatana(t_weapon *arme);
+void setBatonMagique(t_weapon *arme);
+void setDague(t_weapon *arme);
+
+int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
+
+int weaponMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
+
+int characterSetupRoutine(t_perso *character, BITMAP *fondmenu[48]);
+
+/************ Buttons ************/
+
+int button_maker(int posX, int posY, BITMAP *confirm, BITMAP *buffer, int mouse_prev);
+
 
 
 #endif // HEADER_H_INCLUDED
