@@ -379,6 +379,7 @@ int main()
                            setDague(&(ninja[i].arme));
                         }
                     }
+                    choixarme++;
                 }
                 for(int i=0;i<nbjoueurs;i++)
                 {
@@ -466,6 +467,23 @@ int main()
             }
 
         }
+        for(i=0;i<12;i++)
+            {
+                for(j=0;j<12;j++)
+                {
+                    for(int k=0;k<nbjoueurs;k++)
+                    {
+                        if(ninja[k].pos.numx==plateau[i][j].numx && ninja[k].pos.numy==plateau[i][j].numy)
+                        {
+                            plateau[i][j].autrejoueur=1;
+                        }
+                        else
+                        {
+                            plateau[i][j].autrejoueur=0;
+                        }
+                    }
+                }
+            }
 
 
         if(choixaction==1)
@@ -524,17 +542,6 @@ int main()
             {
                 for(j=0;j<12;j++)
                 {
-                    for(int k=0;k<nbjoueurs;k++)
-                    {
-                        if(ninja[k].pos.numx==plateau[i][j].numx && ninja[k].pos.numy==plateau[i][j].numy)
-                        {
-                            plateau[i][j].autrejoueur=1;
-                        }
-                        else
-                        {
-                            plateau[i][j].autrejoueur=0;
-                        }
-                    }
                     if(plateau[i][j].obstacle==1)
                     {
                         draw_sprite(doublebuffer,tree,plateau[i][j].x-42,plateau[i][j].y-80);
