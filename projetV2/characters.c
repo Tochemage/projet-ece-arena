@@ -196,6 +196,6 @@ int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
         character->classe=desc_num;
         return_status=1;
     }
-    //classe modifié -> status 1, sinon 0
+    //classe modifiï¿½ -> status 1, sinon 0
     return return_status;
 }
