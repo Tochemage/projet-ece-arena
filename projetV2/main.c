@@ -26,6 +26,8 @@ int main()
     int persotmpimg[4]={8,10,12,14};
     int imageperso[4]={0,0,0,0};
 
+    int mod_status=0, mod_status2=0;
+
     srand(time(NULL));
 
     for(i=0;i<12;i++)
@@ -45,6 +47,7 @@ int main()
     rectfill(obstacle,0,600,800,0,makecol(0,255,0));
     t_perso joe;
     joe.classe=-1;
+    joe.weapon_num=-1;
 
 
     doublebuffer=create_bitmap(SCREEN_W,SCREEN_H);
@@ -191,23 +194,46 @@ int main()
         switch(joe.classe)
         {
             case -1:
-                printf("Joe is undefined\n");
+                printf("Joe is undefined with ");
                 break;
 
             case 0:
-                printf("Joe is ninja\n");
+                printf("Joe is ninja with ");
                 break;
 
             case 1:
-                printf("Joe is samurai\n");
+                printf("Joe is samurai with ");
                 break;
 
             case 2:
-                printf("Joe is wizard\n");
+                printf("Joe is wizard with ");
                 break;
 
             case 3:
-                printf("Joe is apprentice\n");
+                printf("Joe is apprentice with ");
+                break;
+        }
+
+        switch(joe.weapon_num)
+        {
+            case -1:
+                printf("undefined\n");
+                break;
+
+            case 0:
+                printf("katana\n");
+                break;
+
+            case 1:
+                printf("dagger\n");
+                break;
+
+            case 2:
+                printf("wand\n");
+                break;
+
+            case 3:
+                printf("bow\n");
                 break;
         }
 
@@ -241,7 +267,7 @@ int main()
             if(cmpt==1 && mouse_b&1)
             {
                 undermenu=1;
-                position_mouse(0,0);
+                //position_mouse(0,0);
             }
 
             blit(fondmenu[numimage],doublebuffer,0,0,0,0,SCREEN_W,SCREEN_H);
@@ -252,7 +278,20 @@ int main()
             }
             if(undermenu==1)
             {
-                characterMenuScreen(&joe, fondmenu);
+                mod_status=-1;
+                mod_status2=-1;
+
+                while(mod_status!=0 && mod_status2!=1)
+                {
+                    mod_status=characterMenuScreen(&joe, fondmenu);
+
+                    if(mod_status==1)
+                    {
+                        mod_status2=weaponMenuScreen(&joe, fondmenu);
+                    }
+                }
+
+
                 undermenu=0;
                 /*
                 draw_sprite(doublebuffer,selectplayer[0],290,230);

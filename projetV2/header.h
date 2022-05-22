@@ -53,6 +53,7 @@ typedef struct perso
     float DEF_Multiplier;
 
     t_weapon *arme;
+    int weapon_num;
 }t_perso;
 
 
@@ -97,6 +98,8 @@ void setBatonMagique(t_weapon *arme);
 void setDague(t_weapon *arme);
 
 int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
+
+int weaponMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
 
 /************ Buttons ************/
 

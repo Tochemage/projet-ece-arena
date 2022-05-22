@@ -104,3 +104,27 @@
 1653041015 source:d:\cours s2\prog\projet\versions\projet v3.2\weapons.c
 	"header.h"
 
+1653175675 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\button_features.c
+	"header.h"
+
+1653211076 c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\header.h
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
+1653179843 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\characters.c
+	"header.h"
+
+1653209214 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\gameprog.c
+	"header.h"
+
+1653217812 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\main.c
+	"header.h"
+
+1653209214 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\progallegro.c
+	"header.h"
+
+1653215610 source:c:\users\pierre\onedrive\ece\ece arena\projet-ece-arena\projetv2\weapons.c
+	"header.h"
+
