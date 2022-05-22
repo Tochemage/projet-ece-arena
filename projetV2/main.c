@@ -1,40 +1,24 @@
 #include "header.h"
 
 
-
+void boucleDeJeu();
 int main()
 {
     InitAllegro();
-    int i,j,cmpt;
+
+    t_sauvegarde newPartie;
+    int i,j,valeur=0,variable,variablebis;
+    char nomfichier[100];
     t_carre plateau[12][12];
     BITMAP*doublebuffer;
     BITMAP*obstacle;
-    t_perso ninja[4];
-    int nbjoueurs=0;
-    int tour=0;
-    int numimage;
-    int comptfond;
-    char nomfichier[100];
-    int inmenu=1;
-    int songplaying=0;
 
-    int action=1;
-    int choixaction=1;
-    //int choixarme[4]={0,0,0,0};
-
-    int ingame=0;
-    int initplayer=0;
-    int undermenu=0;
-
-    int persoimg[4]={0,0,0,0};
-    int persotmpimg[4]={8,10,12,14};
-    int imageperso[4]={0,0,0,0};
 
     srand(time(NULL));
 
-    for(i=0;i<12;i++)
+    for(i=0; i<12; i++)
     {
-        for(j=0;j<12;j++)
+        for(j=0; j<12; j++)
         {
             plateau[j][i].numx=j;
             plateau[j][i].numy=i;
@@ -59,23 +43,9 @@ int main()
     clear_bitmap(doublebuffer);
 
     BITMAP* fondmenu[48];
-    BITMAP* playbutton[2];
-    BITMAP* selectplayer[3];
-    BITMAP* fondjeu;
-    BITMAP* tree;
-    BITMAP* cursor;
-    BITMAP* fichearcher;
-    BITMAP* ficheassassin;
-    BITMAP* fichetank;
-    BITMAP* fichemage;
-    BITMAP* archer[24];
-    BITMAP* mage[24];
-    BITMAP* tank[24];
-    BITMAP* assassin[24];
-    BITMAP* layout;
-    BITMAP* moveposs;
-    BITMAP* choixcase;
-    BITMAP* choix[7];
+    /* BITMAP* playbutton[2];
+     BITMAP* selectplayer[3];*/
+
 
 
     SAMPLE *menusong = load_wav("menusong.wav");
@@ -85,153 +55,85 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    for (int i=0;i<48;i++)
+    for (int i=0; i<48; i++)
     {
         sprintf(nomfichier,"image/menu/fondmenubmp/fond%d.bmp",i+1);
 
         fondmenu[i] = load_bitmap(nomfichier,NULL);
-        if (!fondmenu[i]){
+        if (!fondmenu[i])
+        {
             allegro_message("pas pu trouver %s",nomfichier);
             exit(EXIT_FAILURE);
         }
     }
-    playbutton[0]=load_bitmap("image/menu/button/playbutton.bmp",NULL);
-    if (!playbutton[0]){
-            allegro_message("pas pu trouver button play");
-            exit(EXIT_FAILURE);
-        }
-    playbutton[1]=load_bitmap("image/menu/button/playbutton_onit.bmp",NULL);
-    if (!playbutton[1]){
-            allegro_message("pas pu trouver button play 2");
-            exit(EXIT_FAILURE);
-        }
+    /* playbutton[0]=load_bitmap("image/menu/button/playbutton.bmp",NULL);
+     if (!playbutton[0])
+     {
+         allegro_message("pas pu trouver button play");
+         exit(EXIT_FAILURE);
+     }
+     playbutton[1]=load_bitmap("image/menu/button/playbutton_onit.bmp",NULL);
+     if (!playbutton[1])
+     {
+         allegro_message("pas pu trouver button play 2");
+         exit(EXIT_FAILURE);
+     }
 
-    selectplayer[0]=load_bitmap("image/menu/selectplayer/player2.bmp",NULL);
-    if (!selectplayer[0]){
-            allegro_message("pas pu trouver player");
-            exit(EXIT_FAILURE);
-        }
-    selectplayer[1]=load_bitmap("image/menu/selectplayer/player3.bmp",NULL);
-    if (!selectplayer[1]){
-            allegro_message("pas pu trouver player 3");
-            exit(EXIT_FAILURE);
-        }
-    selectplayer[2]=load_bitmap("image/menu/selectplayer/player4.bmp",NULL);
-    if (!selectplayer[2]){
-            allegro_message("pas pu trouver player 4");
-            exit(EXIT_FAILURE);
-        }
+     selectplayer[0]=load_bitmap("image/menu/selectplayer/player2.bmp",NULL);
+     if (!selectplayer[0])
+     {
+         allegro_message("pas pu trouver player");
+         exit(EXIT_FAILURE);
+     }
+     selectplayer[1]=load_bitmap("image/menu/selectplayer/player3.bmp",NULL);
+     if (!selectplayer[1])
+     {
+         allegro_message("pas pu trouver player 3");
+         exit(EXIT_FAILURE);
+     }
+     selectplayer[2]=load_bitmap("image/menu/selectplayer/player4.bmp",NULL);
+     if (!selectplayer[2])
+     {
+         allegro_message("pas pu trouver player 4");
+         exit(EXIT_FAILURE);
+     }*/
 
-    tree=load_bitmap("image/images layout/tree.bmp",NULL);
-    if (!tree){
-            allegro_message("pas pu trouver tree");
-            exit(EXIT_FAILURE);
-        }
-    fondjeu=load_bitmap("image/images layout/grass.bmp",NULL);
-    if (!fondjeu){
-            allegro_message("pas pu trouver fondjeu");
-            exit(EXIT_FAILURE);
-        }
 
-    cursor=load_bitmap("image/images layout/cursor.bmp",NULL);
-    if (!cursor){
-            allegro_message("pas pu trouver cursor");
-            exit(EXIT_FAILURE);
-        }
 
-    moveposs=load_bitmap("image/images layout/moveposs.bmp",NULL);
-    if (!moveposs){
-            allegro_message("pas pu trouver moveposs");
-            exit(EXIT_FAILURE);
-        }
-
-    choixcase=load_bitmap("image/images layout/choixcase.bmp",NULL);
-    if(!choixcase){
-            allegro_message("pas pu trouver fiche choix");
-            exit(EXIT_FAILURE);
-        }
-
-    for(int i=0;i<7;i++)
-    {
-        choix[i]=recup_sprites(choixcase,36,36,2,0,6,i);
-        if (!choix[i]){
-            allegro_message("pas pu trouver choix[%d]",i);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    layout=load_bitmap("image/images layout/infos.bmp",NULL);
-    if (!layout){
-            allegro_message("pas pu trouver layout infos");
-            exit(EXIT_FAILURE);
-        }
-
-    fichearcher=load_bitmap("image/images perso/archer.bmp",NULL);
-    if (!fichearcher){
-            allegro_message("pas pu trouver fiche archer");
-            exit(EXIT_FAILURE);
-        }
-    for(int i=0;i<24;i++)
-    {
-        archer[i]=recup_sprites(fichearcher,50,50,0,0,4,i);
-        if (!archer[i]){
-            allegro_message("pas pu trouver archer[%d]",i);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    ficheassassin=load_bitmap("image/images perso/assassin.bmp",NULL);
-    if (!ficheassassin){
-            allegro_message("pas pu trouver fiche assassin");
-            exit(EXIT_FAILURE);
-        }
-    for(int i=0;i<24;i++)
-    {
-        assassin[i]=recup_sprites(ficheassassin,50,50,0,0,4,i);
-        if (!assassin[i]){
-            allegro_message("pas pu trouver assassin[%d]",i);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    fichemage=load_bitmap("image/images perso/mage.bmp",NULL);
-    if (!fichemage){
-            allegro_message("pas pu trouver fiche mage");
-            exit(EXIT_FAILURE);
-        }
-    for(int i=0;i<24;i++)
-    {
-        mage[i]=recup_sprites(fichemage,50,50,0,0,4,i);
-        if (!mage[i]){
-            allegro_message("pas pu trouver mage[%d]",i);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    fichetank=load_bitmap("image/images perso/tank.bmp",NULL);
-    if (!fichetank){
-            allegro_message("pas pu trouver fiche tank");
-            exit(EXIT_FAILURE);
-        }
-    for(int i=0;i<24;i++)
-    {
-        tank[i]=recup_sprites(fichetank,50,50,0,0,4,i);
-        if (!tank[i]){
-            allegro_message("pas pu trouver tank[%d]",i);
-            exit(EXIT_FAILURE);
-        }
-    }
 
 
 
 
     while(!key[KEY_ESC])
     {
-        set_gfx_mode(GFX_AUTODETECT_WINDOWED,1500,1050,0,0);
-        menuDeJeu();
+
+        valeur=menuDeJeu(&newPartie);
+        switch(valeur)
+        {
+
+        case 5:
+            set_gfx_mode(GFX_AUTODETECT_WINDOWED,800,600,0,0);
+
+            enable_hardware_cursor();
+            show_os_cursor(MOUSE_CURSOR_ALLEGRO);
+            select_mouse_cursor(MOUSE_CURSOR_ARROW);
+            show_mouse(screen);
+            variable = -12;
+            variablebis= -15;
+
+            variable = characterSetupRoutine(&(newPartie.tabjoueur[0]),fondmenu);
+
+            variablebis = characterSetupRoutine(&(newPartie.tabjoueur[1]),fondmenu);
+
+            if((variable==1)&& (variablebis==1))
+            {
+                boucleDeJeu(&doublebuffer,plateau,2,(newPartie.tabjoueur));
+            }
+            break;
 
 
 
+        }
 
         /*
         switch(joe.classe)
@@ -482,8 +384,184 @@ int main()
             */
 
 
-        if(ingame==1 && initplayer==1)
+
+        for(int i=0; i<48; i++)
         {
+            destroy_bitmap(fondmenu[i]);
+        }
+
+        destroy_sample(menusong);
+
+        allegro_exit();
+        return 0;
+
+    }
+
+
+
+}
+END_OF_MAIN();
+
+void boucleDeJeu(BITMAP*doublebuffer,t_carre plateau[12][12],int nbjoueurs,t_perso ninja[4])
+{
+    set_gfx_mode(GFX_AUTODETECT_WINDOWED,800,600,0,0);
+
+
+
+
+    int i,j;
+    int tour=0;
+    int numimage;
+    int comptfond;
+
+    int inmenu=1;
+    int songplaying=0;
+
+    int action=1;
+    int choixaction=1;
+    //int choixarme[4]={0,0,0,0};
+
+    int ingame=0;
+    int initplayer=0;
+    int undermenu=0;
+
+    int persoimg[4]= {0,0,0,0};
+    int persotmpimg[4]= {8,10,12,14};
+    int imageperso[4]= {0,0,0,0};
+
+    BITMAP* fondjeu;
+    BITMAP* tree;
+    BITMAP* cursor;
+    BITMAP* fichearcher;
+    BITMAP* ficheassassin;
+    BITMAP* fichetank;
+    BITMAP* fichemage;
+    BITMAP* archer[24];
+    BITMAP* mage[24];
+    BITMAP* tank[24];
+    BITMAP* assassin[24];
+    BITMAP* layout;
+    BITMAP* moveposs;
+    BITMAP* choixcase;
+    BITMAP* choix[7];
+
+    tree=load_bitmap("image/images layout/tree.bmp",NULL);
+    if (!tree)
+    {
+        allegro_message("pas pu trouver tree");
+        exit(EXIT_FAILURE);
+    }
+    fondjeu=load_bitmap("image/images layout/grass.bmp",NULL);
+    if (!fondjeu)
+    {
+        allegro_message("pas pu trouver fondjeu");
+        exit(EXIT_FAILURE);
+    }
+
+    cursor=load_bitmap("image/images layout/cursor.bmp",NULL);
+    if (!cursor)
+    {
+        allegro_message("pas pu trouver cursor");
+        exit(EXIT_FAILURE);
+    }
+    moveposs=load_bitmap("image/images layout/moveposs.bmp",NULL);
+    if (!moveposs)
+    {
+        allegro_message("pas pu trouver moveposs");
+        exit(EXIT_FAILURE);
+    }
+
+    choixcase=load_bitmap("image/images layout/choixcase.bmp",NULL);
+    if(!choixcase)
+    {
+        allegro_message("pas pu trouver fiche choix");
+        exit(EXIT_FAILURE);
+    }
+
+    for(int i=0; i<7; i++)
+    {
+        choix[i]=recup_sprites(choixcase,36,36,2,0,6,i);
+        if (!choix[i])
+        {
+            allegro_message("pas pu trouver choix[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    layout=load_bitmap("image/images layout/infos.bmp",NULL);
+    if (!layout)
+    {
+        allegro_message("pas pu trouver layout infos");
+        exit(EXIT_FAILURE);
+    }
+
+    fichearcher=load_bitmap("image/images perso/archer.bmp",NULL);
+    if (!fichearcher)
+    {
+        allegro_message("pas pu trouver fiche archer");
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0; i<24; i++)
+    {
+        archer[i]=recup_sprites(fichearcher,50,50,0,0,4,i);
+        if (!archer[i])
+        {
+            allegro_message("pas pu trouver archer[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    ficheassassin=load_bitmap("image/images perso/assassin.bmp",NULL);
+    if (!ficheassassin)
+    {
+        allegro_message("pas pu trouver fiche assassin");
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0; i<24; i++)
+    {
+        assassin[i]=recup_sprites(ficheassassin,50,50,0,0,4,i);
+        if (!assassin[i])
+        {
+            allegro_message("pas pu trouver assassin[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    fichemage=load_bitmap("image/images perso/mage.bmp",NULL);
+    if (!fichemage)
+    {
+        allegro_message("pas pu trouver fiche mage");
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0; i<24; i++)
+    {
+        mage[i]=recup_sprites(fichemage,50,50,0,0,4,i);
+        if (!mage[i])
+        {
+            allegro_message("pas pu trouver mage[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    fichetank=load_bitmap("image/images perso/tank.bmp",NULL);
+    if (!fichetank)
+    {
+        allegro_message("pas pu trouver fiche tank");
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0; i<24; i++)
+    {
+        tank[i]=recup_sprites(fichetank,50,50,0,0,4,i);
+        if (!tank[i])
+        {
+            allegro_message("pas pu trouver tank[%d]",i);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+
+    if(ingame==1 && initplayer==1)
+    {
 
 
         clear_bitmap(doublebuffer);
@@ -496,25 +574,25 @@ int main()
             switch(ninja[tour%nbjoueurs].arme.sortilege)
             {
             case 0:
-                {
-                    draw_sprite(doublebuffer,choix[0],725,100);
-                    break;
-                }
-                case 1:
-                {
-                    draw_sprite(doublebuffer,choix[1],725,100);
-                    break;
-                }
-                case 2:
-                {
-                    draw_sprite(doublebuffer,choix[2],725,100);
-                    break;
-                }
-                case 3:
-                {
-                    draw_sprite(doublebuffer,choix[3],725,100);
-                    break;
-                }
+            {
+                draw_sprite(doublebuffer,choix[0],725,100);
+                break;
+            }
+            case 1:
+            {
+                draw_sprite(doublebuffer,choix[1],725,100);
+                break;
+            }
+            case 2:
+            {
+                draw_sprite(doublebuffer,choix[2],725,100);
+                break;
+            }
+            case 3:
+            {
+                draw_sprite(doublebuffer,choix[3],725,100);
+                break;
+            }
             }
             draw_sprite(doublebuffer,choix[6],725,146);
             draw_sprite(doublebuffer,choix[4],725,184);
@@ -537,23 +615,23 @@ int main()
             }
 
         }
-        for(i=0;i<12;i++)
+        for(i=0; i<12; i++)
+        {
+            for(j=0; j<12; j++)
             {
-                for(j=0;j<12;j++)
+                for(int k=0; k<nbjoueurs; k++)
                 {
-                    for(int k=0;k<nbjoueurs;k++)
+                    if(ninja[k].pos.numx==plateau[i][j].numx && ninja[k].pos.numy==plateau[i][j].numy)
                     {
-                        if(ninja[k].pos.numx==plateau[i][j].numx && ninja[k].pos.numy==plateau[i][j].numy)
-                        {
-                            plateau[i][j].autrejoueur=1;
-                        }
-                        else
-                        {
-                            plateau[i][j].autrejoueur=0;
-                        }
+                        plateau[i][j].autrejoueur=1;
+                    }
+                    else
+                    {
+                        plateau[i][j].autrejoueur=0;
                     }
                 }
             }
+        }
 
 
         if(choixaction==1)
@@ -566,9 +644,9 @@ int main()
         if(choixaction==2)
         {
 
-            for(int i=0;i<nbjoueurs;i++)
+            for(int i=0; i<nbjoueurs; i++)
             {
-               attackingprocess(&ninja[tour%nbjoueurs],&ninja[i]);
+                attackingprocess(&ninja[tour%nbjoueurs],&ninja[i]);
             }
             choixaction=0;
             tour++;
@@ -587,78 +665,70 @@ int main()
         }
 
 
-            for(i=0;i<nbjoueurs;i++)
+        for(i=0; i<nbjoueurs; i++)
+        {
+            persoimg[i]++;
+
+            if (persoimg[i]>=persotmpimg[i])
             {
-                persoimg[i]++;
-
-                if (persoimg[i]>=persotmpimg[i])
-                {
-                    persoimg[i]=0;
-                    imageperso[i]++;
-                }
-                if (imageperso[i]>=4)
-                {
-                    imageperso[i]=0;
-                }
-                if(ninja[i].PV>0)
-                {
-                    draw_sprite(doublebuffer,ninja[i].img[imageperso[i]],ninja[i].pos.x-25,ninja[i].pos.y-25);
-                }
-
-
-                draw_sprite(doublebuffer,ninja[tour%nbjoueurs].img[imageperso[tour%nbjoueurs]+4*action],30,50);
+                persoimg[i]=0;
+                imageperso[i]++;
+            }
+            if (imageperso[i]>=4)
+            {
+                imageperso[i]=0;
+            }
+            if(ninja[i].PV>0)
+            {
+                draw_sprite(doublebuffer,ninja[i].img[imageperso[i]],ninja[i].pos.x-25,ninja[i].pos.y-25);
             }
 
-            for(i=0;i<12;i++)
-            {
-                for(j=0;j<12;j++)
-                {
-                    if(plateau[i][j].obstacle==1)
-                    {
-                        draw_sprite(doublebuffer,tree,plateau[i][j].x-42,plateau[i][j].y-80);
-                    }
-                }
-            }
-            //showmovement(&ninja[tour%nbjoueurs],doublebuffer,moveposs,plateau);
+
+            draw_sprite(doublebuffer,ninja[tour%nbjoueurs].img[imageperso[tour%nbjoueurs]+4*action],30,50);
         }
 
-        show_mouse(doublebuffer);
-        blit(doublebuffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
-        rest(5);
+        for(i=0; i<12; i++)
+        {
+            for(j=0; j<12; j++)
+            {
+                if(plateau[i][j].obstacle==1)
+                {
+                    draw_sprite(doublebuffer,tree,plateau[i][j].x-42,plateau[i][j].y-80);
+                }
+            }
+        }
+        //showmovement(&ninja[tour%nbjoueurs],doublebuffer,moveposs,plateau);
     }
 
-    for(int i=0;i<48;i++)
-    {
-        destroy_bitmap(fondmenu[i]);
-    }
+    show_mouse(doublebuffer);
+    blit(doublebuffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+    rest(5);
+
     destroy_bitmap(fichearcher);
     destroy_bitmap(fichemage);
     destroy_bitmap(fichetank);
     destroy_bitmap(ficheassassin);
     destroy_bitmap(tree);
     destroy_bitmap(fondjeu);
-    for(int i=0;i<24;i++)
+    for(int i=0; i<24; i++)
     {
         destroy_bitmap(archer[i]);
     }
-    for(int i=0;i<24;i++)
+    for(int i=0; i<24; i++)
     {
         destroy_bitmap(tank[i]);
     }
-    for(int i=0;i<24;i++)
+    for(int i=0; i<24; i++)
     {
         destroy_bitmap(mage[i]);
     }
-    for(int i=0;i<24;i++)
+    for(int i=0; i<24; i++)
     {
         destroy_bitmap(assassin[i]);
     }
-    destroy_sample(menusong);
+}
 
-    allegro_exit();
-    return 0;
 
-}END_OF_MAIN();
 
 
 

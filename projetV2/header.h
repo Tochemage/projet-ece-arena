@@ -12,20 +12,9 @@
 #define allocator(element, type) _allocator(element, sizeof(type))
 
 
-typedef struct joueur
-{
-    char nom[50];
 
 
-} t_joueur;
 
-typedef struct sauvegarde
-{
-    int indexjEnTour;
-    int nbDePartie;
-    int nbJoueurs;
-    t_joueur tabjoueur[4];
-} t_sauvegarde;
 
 
 
@@ -49,11 +38,12 @@ typedef struct weapon
 
 typedef struct perso
 {
+    char nom[50];
     BITMAP*img[24];
     t_carre pospre;
     t_carre pos;
     int classe;
-    char*nom;
+
     int deplacementx;
     int deplacementy;
     int deplacementxre;
@@ -82,11 +72,18 @@ typedef struct perso
     int weapon_num;
 }t_perso;
 
+typedef struct sauvegarde
+{
+    int indexjEnTour;
+    int nbDePartie;
+    int nbJoueurs;
+    t_perso tabjoueur[4];
+
+} t_sauvegarde;
 
 
-
-void menuDeJeu();
-void MenuDesJoueurs(int w,int h,int nbDePartie);
+int menuDeJeu(t_sauvegarde *newPartie);
+int MenuDesJoueurs(int w,int h,int nbDePartie,t_sauvegarde *newPartie);
 
 void *_allocator(size_t element, size_t typeSize);
 char *ajoutLettre( char *input, const char c);

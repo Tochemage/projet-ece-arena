@@ -84,7 +84,7 @@ void affichageMembres(int w,int h)
 
 }
 
-void menuDeJeu()
+int menuDeJeu(t_sauvegarde *newPartie)
 {
 
     //t_sauvegarde Partie;
@@ -101,7 +101,7 @@ void menuDeJeu()
     int w = 1500;
     int h = 1050;
     ///compteur de selection de menu
-    int cmpt =0;
+    int cmpt =0,var=0,returnvar=0;
 
     ///ecran double buffer
     BITMAP *menuScreen = create_bitmap(w,h);
@@ -111,7 +111,7 @@ void menuDeJeu()
     /// fermer le programme
     //set_close_button_callback(Changement);
 
-    while(!Fermer)
+    while((!Fermer)&& (var==0))
     {
 
 
@@ -177,7 +177,7 @@ void menuDeJeu()
                 ///ici on met le sous prog de lancement d'une partie
                 //stop_sample(musique);
                 clear_bitmap(menuScreen);
-                MenuDesJoueurs(w,h,1);
+                var = MenuDesJoueurs(w,h,1,newPartie);
 
                 //play_sample(musique,255,128,1000,true);
                 //rest(50);
@@ -266,16 +266,17 @@ void menuDeJeu()
 
     }
 
+    return var;
 }
 
 /// <- menuDeJeu.h
-void MenuDesJoueurs(int w,int h,int nbDePartie)
+int MenuDesJoueurs(int w,int h,int nbDePartie,t_sauvegarde *newPartie)
 {
     ///Utiliser l'heure actuelle comme parametre pour le générateur aléatoire
     srand(time(0));
 
 ///compteur pour choisir element du menu
-    int compteur =0;
+    int compteur =0,x=0;
 
     ///configuration de la police à partir du dossier source
 
@@ -343,20 +344,21 @@ void MenuDesJoueurs(int w,int h,int nbDePartie)
             if((mouse_b&1)==1)
             {
                 /// -> partie.h
-                t_sauvegarde newPartie;
-                initPartie(&newPartie,2);
+
+                initPartie(newPartie,2);
 
                 clear_bitmap(menuScreen);
                 ///ICI CA CLEAR LA BITMAP DU MENU JOUEURS QUAND ON APPUIE SUR ENTER CEST NORMAL QUE CA DONNE LIMPRESSION DE REVENIR EN ARRIERE ENFT CA ENVOIE JUSTE PAS LE MENU
 
                 /// -> nomDeJoueurs.h
-                nomDeJoueurs(w,h,2,&newPartie);
+                nomDeJoueurs(w,h,2,newPartie);
 
                 /// plateauDeJeu.h
+                x=5;
                 //  plateauDeJeu(&newPartie);
-                rest(50);
+                /*rest(50);
                 set_gfx_mode(GFX_AUTODETECT_WINDOWED,1500,1050,0,0);
-
+                */
                 isDone=true;
 
             }
@@ -367,18 +369,19 @@ void MenuDesJoueurs(int w,int h,int nbDePartie)
             if((mouse_b&1)==1)
             {
 
-                t_sauvegarde newPartie ;
-                initPartie(&newPartie,2);
+
+                initPartie(newPartie,2);
 
                 clear_bitmap(menuScreen);
 
                 /// -> nomDeJoueurs.h
-                nomDeJoueurs(w,h,3,&newPartie);
+                nomDeJoueurs(w,h,3,newPartie);
 
                 /// plateauDeJeu.h
+                x=6;
                 // plateauDeJeu(&newPartie);
-                rest(50);
-                set_gfx_mode(GFX_AUTODETECT_WINDOWED,1500,1050,0,0);
+                /*rest(50);
+                set_gfx_mode(GFX_AUTODETECT_WINDOWED,1500,1050,0,0);*/
 
                 isDone=true;
 
@@ -388,19 +391,20 @@ void MenuDesJoueurs(int w,int h,int nbDePartie)
             menuImg = load_bitmap("arena/joueur/nbjoueur/3.bmp",NULL);
             if((mouse_b&1)==1)
             {
-                t_sauvegarde newPartie ;
-                initPartie(&newPartie,2);
+
+                initPartie(newPartie,2);
 
 
                 clear_bitmap(menuScreen);
 
                 /// -> nomDeJoueurs.h
-                nomDeJoueurs(w,h,4,&newPartie);
+                nomDeJoueurs(w,h,4,newPartie);
 
+                x=7;
                 /// plateauDeJeu.h
                 // plateauDeJeu(&newPartie);
-                rest(50);
-                set_gfx_mode(GFX_AUTODETECT_WINDOWED,1500,1050,0,0);
+                /*rest(50);
+                set_gfx_mode(GFX_AUTODETECT_WINDOWED,1500,1050,0,0);*/
 
                 isDone=true;
             }
@@ -427,7 +431,7 @@ void MenuDesJoueurs(int w,int h,int nbDePartie)
 
     }
 
-
+    return x;
 }
 
 /// <- menuDeJeu.h
