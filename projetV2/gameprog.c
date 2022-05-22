@@ -452,6 +452,7 @@ void showmovement(t_perso* player,BITMAP* doublebuffer, BITMAP* canmove, t_carre
         }
 }
 
+/*
 void initpartie(int nbjoueurs,t_perso ninja[4], t_carre plateau[12][12],int choixarme[4],BITMAP* assassin[24],BITMAP* mage[24],BITMAP* tank[24],BITMAP* archer[24])
 {
     for(int i=0;i<nbjoueurs;i++)
@@ -554,3 +555,4 @@ void initpartie(int nbjoueurs,t_perso ninja[4], t_carre plateau[12][12],int choi
                     }
                 }
 }
+*/

@@ -20,7 +20,7 @@ int main()
 
     int action=1;
     int choixaction=1;
-    int choixarme[4]={0,0,0,0};
+    //int choixarme[4]={0,0,0,0};
 
     int ingame=0;
     int initplayer=0;
@@ -392,6 +392,7 @@ int main()
                     ninja[3].pos=plateau[5][11];
                 }
 
+                /*
                 for(int i=0;i<nbjoueurs;i++)
                 {
                     for(int j=0;j<24;j++)
@@ -439,6 +440,8 @@ int main()
                     }
                     //choixarme++;
                 }
+                */
+
                 for(int i=0;i<nbjoueurs;i++)
                 {
                     for(int j=0;j<24;j++)
