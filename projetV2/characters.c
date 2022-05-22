@@ -70,7 +70,7 @@ void setSupportStats(t_perso *character)
 
 int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
 {
-    int cmpt=0, imnum, desc_num, desc_active=0, mouse_prev=1, status=0, back_status=0, return_status=0;
+    int cmpt=0, imnum=0, desc_num, desc_active=0, mouse_prev=1, status=0, back_status=0, return_status=0;
     BITMAP *buffer, *ninja, *tank, *wizard, *support, *desc[4], *confirm, *back;
     buffer=create_bitmap(SCREEN_W, SCREEN_H);
 

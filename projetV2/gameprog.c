@@ -130,7 +130,7 @@ void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso tabjoueur[4
             rest(50);
         }
 
-
+    printf("%d      %d", seven->pos.numx,seven->pos.numy);
     if(seven->deplacementx!=(-24))
     {
         if(seven->pos.numx<seven->deplacementx)
@@ -139,6 +139,7 @@ void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso tabjoueur[4
         }
         else if(seven->pos.numx>seven->deplacementx)
         {
+
             seven->pos=tab[seven->pos.numx -1][seven->pos.numy];
         }
         else
