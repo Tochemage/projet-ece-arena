@@ -20,7 +20,7 @@ int main()
 
     int action=1;
     int choixaction=1;
-    int choixarme=0;
+    int choixarme[4]={0,0,0,0};
 
     int ingame=0;
     int initplayer=0;
@@ -379,7 +379,7 @@ int main()
                            setDague(&(ninja[i].arme));
                         }
                     }
-                    choixarme++;
+                    //choixarme++;
                 }
                 for(int i=0;i<nbjoueurs;i++)
                 {
@@ -404,6 +404,7 @@ int main()
                     }
                 }
 
+                //initpartie(nbjoueurs,&ninja[4],plateau,choixarme[4],assassin,mage,tank,archer);
                 initplayer=1;
                 position_mouse(0,0);
 
@@ -490,6 +491,7 @@ int main()
         {
             deplacementloop(doublebuffer,&ninja[tour%nbjoueurs],plateau,&tour,ninja);
             affichagepointer(doublebuffer,plateau,cursor,&ninja[tour%nbjoueurs]);
+            showmovement(&ninja[tour%nbjoueurs],doublebuffer,moveposs,plateau);
 
         }
         if(choixaction==2)

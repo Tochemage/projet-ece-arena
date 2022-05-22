@@ -36,9 +36,6 @@ typedef struct perso
     struct perso*suivant;
     int num;
 
-
-/************ Character stats************/
-
     int PV_Base;
     int Stamina_Base;
     int Faith_Base;
@@ -57,7 +54,7 @@ typedef struct perso
 }t_perso;
 
 
-
+/************ Character stats************/
 ////////////////proto////////////////
 
 void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso* otherperso[4]);
@@ -80,7 +77,7 @@ void generationobstacles(t_carre tabb[12][12]);
 
 void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_perso*player);
 
-void showmovement(t_perso* ninja,BITMAP* doublebuffer, BITMAP* canmove, t_carre plateau[12][12]);
+void showmovement(t_perso* player,BITMAP* doublebuffer, BITMAP* canmove, t_carre tab[12][12]);
 
 
 /************ Character stats setup ************/
@@ -98,6 +95,9 @@ void setArc(t_weapon *arme);
 void setKatana(t_weapon *arme);
 void setBatonMagique(t_weapon *arme);
 void setDague(t_weapon *arme);
+
+void initpartie(int nbjoueurs,t_perso ninja[4], t_carre plateau[12][12],int choixarme[4],BITMAP* assassin[24],BITMAP* mage[24],BITMAP* tank[24],BITMAP* archer[24]);
+
 
 
 

@@ -88,7 +88,7 @@ void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso*autreperso[
 
                     casediffx=abs(seven->pos.numx-tab[i][j].numx);
                     casediffy=abs(seven->pos.numy-tab[i][j].numy);
-                    if((((seven->Stamina)/10)-(casediffx+casediffy))>=0)
+                    if((((seven->Stamina)/12)-(casediffx+casediffy))>=0)
                     {
 
                         seven->deplacementx=i;
@@ -322,7 +322,7 @@ void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_p
                 {
                     casediffx=abs(player->pos.numx-tab[i][j].numx);
                     casediffy=abs(player->pos.numy-tab[i][j].numy);
-                    if((((player->Stamina)/10)-(casediffx+casediffy))>=0)
+                    if((((player->Stamina)/12)-(casediffx+casediffy))>=0)
                     {
                     draw_sprite(doublebuffer,pointer,tab[i][j].x-25,tab[i][j].y-25);
                     }
@@ -331,13 +331,15 @@ void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_p
         }
 }
 
-void showmovement(t_perso* ninja,BITMAP* doublebuffer, BITMAP* canmove, t_carre plateau[12][12])
+void showmovement(t_perso* player,BITMAP* doublebuffer, BITMAP* canmove, t_carre tab[12][12])
 {
     //int capmove=ninja->Stamina;
+    /*
     for(int i=0;i>ninja->Stamina+1;i++)
     {
         if(ninja->pos.numx+i<=12 && ninja->pos.numx+i>=0 && plateau[ninja->pos.numx+i][ninja->pos.numy].obstacle==0)
         {
+
             draw_sprite(doublebuffer,canmove,ninja->pos.x+(48*i)-25,ninja->pos.y-24);
             draw_sprite(doublebuffer,canmove,ninja->pos.x-(48*i)-25,ninja->pos.y-24);
         }
@@ -350,4 +352,124 @@ void showmovement(t_perso* ninja,BITMAP* doublebuffer, BITMAP* canmove, t_carre 
             draw_sprite(doublebuffer,canmove,ninja->pos.x-24,ninja->pos.y+(48*i));
         }
     }
+    */
+    int casediffx,casediffy;
+    for(int j=0;j<12;j++)
+        {
+            for(int i=0;i<12;i++)
+            {
+                if(tab[i][j].obstacle==0 && tab[i][j].autrejoueur==0)
+                {
+                    casediffx=abs(player->pos.numx-tab[i][j].numx);
+                    casediffy=abs(player->pos.numy-tab[i][j].numy);
+                    if((((player->Stamina)/12)-(casediffx+casediffy))>=0)
+                    {
+                    draw_sprite(doublebuffer,canmove,tab[i][j].x-25,tab[i][j].y-25);
+                    }
+                }
+            }
+        }
+}
+
+void initpartie(int nbjoueurs,t_perso ninja[4], t_carre plateau[12][12],int choixarme[4],BITMAP* assassin[24],BITMAP* mage[24],BITMAP* tank[24],BITMAP* archer[24])
+{
+    for(int i=0;i<nbjoueurs;i++)
+                {
+                    ninja[i]=initperso();
+                }
+                if(nbjoueurs==2)
+                {
+                    ninja[0].pos=plateau[0][6];
+                    ninja[1].pos=plateau[11][5];
+                }
+                else if(nbjoueurs==3)
+                {
+                    ninja[0].pos=plateau[0][6];
+                    ninja[1].pos=plateau[6][0];
+                    ninja[2].pos=plateau[11][5];
+
+                    ninja[1].classe=1;//test
+                    ninja[2].classe=2;//test
+
+                    ninja[0].arme.sortilege=0;//test
+                    ninja[1].arme.sortilege=1;//test
+                    ninja[2].arme.sortilege=2;
+                }
+                else if(nbjoueurs==4)
+                {
+                    ninja[0].pos=plateau[0][6];
+                    ninja[1].pos=plateau[6][0];
+                    ninja[2].pos=plateau[11][5];
+                    ninja[3].pos=plateau[5][11];
+                }
+
+                for(int i=0;i<nbjoueurs;i++)
+                {
+                    for(int j=0;j<24;j++)
+                    {
+                        if(ninja[i].classe==0)
+                        {
+                           setSupportStats(&ninja[i]);
+                        }
+                        if(ninja[i].classe==1)
+                        {
+                            setTankStats((&ninja[i]));
+                        }
+                        if(ninja[i].classe==2)
+                        {
+                            setWizardStats(&ninja[i]);
+
+                        }
+                        if(ninja[i].classe==3)
+                        {
+                           setAssassinStats(&ninja[i]);
+                        }
+                    }
+                }
+
+                for(int i=0;i<nbjoueurs;i++)
+                {
+                    for(int j=0;j<24;j++)
+                    {
+                        if(choixarme==0)
+                        {
+                           setArc(&(ninja[i].arme));
+                        }
+                        if(choixarme==1)
+                        {
+                           setKatana(&(ninja[i].arme));
+                        }
+                        if(choixarme==2)
+                        {
+                           setBatonMagique(&(ninja[i].arme));
+                        }
+                        if(choixarme==3)
+                        {
+                           setDague(&(ninja[i].arme));
+                        }
+                    }
+                    //choixarme++;
+                }
+                for(int i=0;i<nbjoueurs;i++)
+                {
+                    for(int j=0;j<24;j++)
+                    {
+                        if(ninja[i].arme.sortilege==0)
+                        {
+                           ninja[i].img[j]=tank[j];
+                        }
+                        if(ninja[i].arme.sortilege==1)
+                        {
+                           ninja[i].img[j]=archer[j];
+                        }
+                        if(ninja[i].arme.sortilege==2)
+                        {
+                           ninja[i].img[j]=mage[j];
+                        }
+                        if(ninja[i].arme.sortilege==3)
+                        {
+                           ninja[i].img[j]=assassin[j];
+                        }
+                    }
+                }
 }
