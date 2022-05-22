@@ -5,6 +5,45 @@
 #include <allegro.h>
 #include <time.h>
 
+#include <winalleg.h>
+#include  <stdbool.h>
+#include <string.h>
+#include <conio.h>
+#define allocator(element, type) _allocator(element, sizeof(type))
+
+
+typedef struct joueur
+{
+    char nom[50];
+
+
+} t_joueur;
+
+typedef struct sauvegarde
+{
+    int indexjEnTour;
+    int nbDePartie;
+    int nbJoueurs;
+    t_joueur tabjoueur[4];
+} t_sauvegarde;
+
+void menuDeJeu();
+void MenuDesJoueurs(int w,int h,int nbDePartie);
+
+void *_allocator(size_t element, size_t typeSize);
+char *ajoutLettre( char *input, const char c);
+void saisieLesNoms(int w,int h,int nbj, t_sauvegarde * partie,BITMAP* menuScreen );
+void nomDeJoueurs(int w,int h,int nbDeJoueurs,t_sauvegarde * newPartie);
+void Regles(int w,int h);
+void Options(int w,int h);
+void initPartie(t_sauvegarde *PartieDeSauvegarde,int nbJoueurs/*,int nbDePartie*/);
+void Changement(bool * variablebool);
+void initAllegro();
+void Score(int w,int h);
+t_sauvegarde LireDonneePartie();
+void EcrireDonneePartie(t_sauvegarde *PartieDeSauvegarde);
+
+
 typedef struct carre
 {
     int numx;
@@ -12,6 +51,7 @@ typedef struct carre
     int x;
     int y;
     int obstacle;
+    int autrejoueur;
 }t_carre;
 
 typedef struct weapon
@@ -57,10 +97,9 @@ typedef struct perso
 }t_perso;
 
 
-
 ////////////////proto////////////////
 
-void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour);
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
 
 t_perso*ajout(t_perso*oldlist,int num);
 
@@ -74,11 +113,13 @@ t_perso initperso();
 
 void remptab(t_perso tab[4],int*nbjoueurs);
 
-void deplacement(t_perso*seven, t_carre tab[12][12],int*tour);
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
 
 void generationobstacles(t_carre tabb[12][12]);
 
-void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree);
+void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_perso*player);
+
+void showmovement(t_perso* player,BITMAP* doublebuffer, BITMAP* canmove, t_carre tab[12][12]);
 
 
 /************ Character stats setup ************/
@@ -106,6 +147,9 @@ int characterSetupRoutine(t_perso *character, BITMAP *fondmenu[48]);
 /************ Buttons ************/
 
 int button_maker(int posX, int posY, BITMAP *confirm, BITMAP *buffer, int mouse_prev);
+void initpartie(int nbjoueurs,t_perso ninja[4], t_carre plateau[12][12],int choixarme[4],BITMAP* assassin[24],BITMAP* mage[24],BITMAP* tank[24],BITMAP* archer[24]);
+
+
 
 
 

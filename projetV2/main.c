@@ -48,10 +48,12 @@ int main()
     generationobstacles(plateau);
     obstacle=create_bitmap(20,48);
     rectfill(obstacle,0,600,800,0,makecol(0,255,0));
+
+    /*
     t_perso joe;
     joe.classe=-1;
     joe.weapon_num=-1;
-
+    */
 
     doublebuffer=create_bitmap(SCREEN_W,SCREEN_H);
     clear_bitmap(doublebuffer);
@@ -315,7 +317,7 @@ int main()
             }
             if(undermenu==1)
             {
-                characterSetupRoutine(&joe, fondmenu);
+                //characterSetupRoutine(&joe, fondmenu);
 
 
                 undermenu=0;
