@@ -18,10 +18,6 @@ int main()
     int inmenu=1;
     int songplaying=0;
 
-    int action=1;
-    int choixaction=1;
-    int choixarme=0;
-
     int ingame=0;
     int initplayer=0;
     int undermenu=0;
@@ -29,6 +25,7 @@ int main()
     int persoimg[4]={0,0,0,0};
     int persotmpimg[4]={8,10,12,14};
     int imageperso[4]={0,0,0,0};
+
 
     srand(time(NULL));
 
@@ -41,13 +38,15 @@ int main()
             plateau[j][i].x=137+(j*48);
             plateau[j][i].y=37+(i*48);
             plateau[j][i].obstacle=0;
-            plateau[j][i].autrejoueur=0;
         }
     }
 
     generationobstacles(plateau);
     obstacle=create_bitmap(20,48);
     rectfill(obstacle,0,600,800,0,makecol(0,255,0));
+    t_perso joe;
+    joe.classe=-1;
+    joe.weapon_num=-1;
 
 
     doublebuffer=create_bitmap(SCREEN_W,SCREEN_H);
@@ -55,7 +54,7 @@ int main()
 
     BITMAP* fondmenu[48];
     BITMAP* playbutton[2];
-    BITMAP* selectplayer[3];
+    BITMAP*selectplayer[3];
     BITMAP* fondjeu;
     BITMAP* tree;
     BITMAP* cursor;
@@ -67,13 +66,8 @@ int main()
     BITMAP* mage[24];
     BITMAP* tank[24];
     BITMAP* assassin[24];
-    BITMAP* layout;
-    BITMAP* moveposs;
-    BITMAP* choixcase;
-    BITMAP* choix[7];
 
-
-    SAMPLE *menusong = load_wav("menusong.wav");
+    SAMPLE *menusong = load_wav("./menusong.wav");
     if (!menusong)
     {
         allegro_message("error loading");
@@ -131,33 +125,6 @@ int main()
     cursor=load_bitmap("image/images layout/cursor.bmp",NULL);
     if (!cursor){
             allegro_message("pas pu trouver cursor");
-            exit(EXIT_FAILURE);
-        }
-
-    moveposs=load_bitmap("image/images layout/moveposs.bmp",NULL);
-    if (!moveposs){
-            allegro_message("pas pu trouver moveposs");
-            exit(EXIT_FAILURE);
-        }
-
-    choixcase=load_bitmap("image/images layout/choixcase.bmp",NULL);
-    if(!choixcase){
-            allegro_message("pas pu trouver fiche choix");
-            exit(EXIT_FAILURE);
-        }
-
-    for(int i=0;i<7;i++)
-    {
-        choix[i]=recup_sprites(choixcase,36,36,2,0,6,i);
-        if (!choix[i]){
-            allegro_message("pas pu trouver choix[%d]",i);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    layout=load_bitmap("image/images layout/infos.bmp",NULL);
-    if (!layout){
-            allegro_message("pas pu trouver layout infos");
             exit(EXIT_FAILURE);
         }
 
@@ -223,11 +190,59 @@ int main()
     while(!key[KEY_ESC])
     {
 
+        /*
+        switch(joe.classe)
+        {
+            case -1:
+                printf("Joe is undefined with ");
+                break;
+
+            case 0:
+                printf("Joe is ninja with ");
+                break;
+
+            case 1:
+                printf("Joe is samurai with ");
+                break;
+
+            case 2:
+                printf("Joe is wizard with ");
+                break;
+
+            case 3:
+                printf("Joe is apprentice with ");
+                break;
+        }
+
+        switch(joe.weapon_num)
+        {
+            case -1:
+                printf("undefined\n");
+                break;
+
+            case 0:
+                printf("katana\n");
+                break;
+
+            case 1:
+                printf("dagger\n");
+                break;
+
+            case 2:
+                printf("wand\n");
+                break;
+
+            case 3:
+                printf("bow\n");
+                break;
+        }
+        */
+
         if(inmenu==1)
         {
             if(songplaying==0)
             {
-                play_sample(menusong,255,123,1000,1);
+                play_sample(menusong,200,123,1000,1);
                 songplaying=1;
             }
 
@@ -253,7 +268,7 @@ int main()
             if(cmpt==1 && mouse_b&1)
             {
                 undermenu=1;
-                position_mouse(0,0);
+                //position_mouse(0,0);
             }
 
             blit(fondmenu[numimage],doublebuffer,0,0,0,0,SCREEN_W,SCREEN_H);
@@ -264,6 +279,11 @@ int main()
             }
             if(undermenu==1)
             {
+                characterSetupRoutine(&joe, fondmenu);
+
+
+                undermenu=0;
+                /*
                 draw_sprite(doublebuffer,selectplayer[0],290,230);
                 draw_sprite(doublebuffer,selectplayer[1],290,350);
                 draw_sprite(doublebuffer,selectplayer[2],290,470);
@@ -282,6 +302,7 @@ int main()
                 nbjoueurs=4;
                 undermenu=2;
                 }
+                */
             }
             if(undermenu==2)
             {
@@ -307,7 +328,6 @@ int main()
                 for(int i=0;i<nbjoueurs;i++)
                 {
                     ninja[i]=initperso();
-                    ninja[i].num=i;
                 }
                 if(nbjoueurs==2)
                 {
@@ -322,10 +342,6 @@ int main()
 
                     ninja[1].classe=1;//test
                     ninja[2].classe=2;//test
-
-                    ninja[0].arme.sortilege=0;//test
-                    ninja[1].arme.sortilege=1;//test
-                    ninja[2].arme.sortilege=2;
                 }
                 else if(nbjoueurs==4)
                 {
@@ -341,67 +357,21 @@ int main()
                     {
                         if(ninja[i].classe==0)
                         {
-                           setSupportStats(&ninja[i]);
+                           ninja[i].img[j]=archer[j];
                         }
                         if(ninja[i].classe==1)
                         {
-                            setTankStats((&ninja[i]));
+                           ninja[i].img[j]=tank[j];
                         }
                         if(ninja[i].classe==2)
                         {
-                            setWizardStats(&ninja[i]);
-
+                           ninja[i].img[j]=mage[j];
                         }
                         if(ninja[i].classe==3)
                         {
-                           setAssassinStats(&ninja[i]);
-                        }
-                    }
-                }
-
-                for(int i=0;i<nbjoueurs;i++)
-                {
-                    for(int j=0;j<24;j++)
-                    {
-                        if(choixarme==0)
-                        {
-                           setArc(&(ninja[i].arme));
-                        }
-                        if(choixarme==1)
-                        {
-                           setKatana(&(ninja[i].arme));
-                        }
-                        if(choixarme==2)
-                        {
-                           setBatonMagique(&(ninja[i].arme));
-                        }
-                        if(choixarme==3)
-                        {
-                           setDague(&(ninja[i].arme));
-                        }
-                    }
-                    choixarme++;
-                }
-                for(int i=0;i<nbjoueurs;i++)
-                {
-                    for(int j=0;j<24;j++)
-                    {
-                        if(ninja[i].arme.sortilege==0)
-                        {
-                           ninja[i].img[j]=tank[j];
-                        }
-                        if(ninja[i].arme.sortilege==1)
-                        {
-                           ninja[i].img[j]=archer[j];
-                        }
-                        if(ninja[i].arme.sortilege==2)
-                        {
-                           ninja[i].img[j]=mage[j];
-                        }
-                        if(ninja[i].arme.sortilege==3)
-                        {
                            ninja[i].img[j]=assassin[j];
                         }
+
                     }
                 }
 
@@ -418,104 +388,9 @@ int main()
 
 
         clear_bitmap(doublebuffer);
-        //rectfill(doublebuffer,0,600,800,0,makecol(255,255,255));
+        rectfill(doublebuffer,0,600,800,0,makecol(255,255,255));
         blit(fondjeu,doublebuffer,0,0,0,0,800,600);
-        blit(layout,doublebuffer,0,0,10,12,95,580);
-        blit(layout,doublebuffer,0,0,697,12,95,580);
-        if(choixaction==0)
-        {
-            switch(ninja[tour%nbjoueurs].arme.sortilege)
-            {
-            case 0:
-                {
-                    draw_sprite(doublebuffer,choix[0],725,100);
-                    break;
-                }
-                case 1:
-                {
-                    draw_sprite(doublebuffer,choix[1],725,100);
-                    break;
-                }
-                case 2:
-                {
-                    draw_sprite(doublebuffer,choix[2],725,100);
-                    break;
-                }
-                case 3:
-                {
-                    draw_sprite(doublebuffer,choix[3],725,100);
-                    break;
-                }
-            }
-            draw_sprite(doublebuffer,choix[6],725,146);
-            draw_sprite(doublebuffer,choix[4],725,184);
-            draw_sprite(doublebuffer,choix[5],725,230);
-            if(mouse_x>725 && mouse_x<725+36 && mouse_y>100 && mouse_y<136 && mouse_b&1)
-            {
-                choixaction=2;
-            }
-            if(mouse_x>725 && mouse_x<725+36 && mouse_y>146 && mouse_y<146+36 && mouse_b&1)
-            {
-                choixaction=3;
-            }
-            if(mouse_x>725 && mouse_x<725+36 && mouse_y>184 && mouse_y<184+36 && mouse_b&1)
-            {
-                choixaction=1;
-            }
-            if(mouse_x>725 && mouse_x<725+36 && mouse_y>230 && mouse_y<230+36 && mouse_b&1)
-            {
-                choixaction=4;
-            }
-
-        }
-        for(i=0;i<12;i++)
-            {
-                for(j=0;j<12;j++)
-                {
-                    for(int k=0;k<nbjoueurs;k++)
-                    {
-                        if(ninja[k].pos.numx==plateau[i][j].numx && ninja[k].pos.numy==plateau[i][j].numy)
-                        {
-                            plateau[i][j].autrejoueur=1;
-                        }
-                        else
-                        {
-                            plateau[i][j].autrejoueur=0;
-                        }
-                    }
-                }
-            }
-
-
-        if(choixaction==1)
-        {
-            deplacementloop(doublebuffer,&ninja[tour%nbjoueurs],plateau,&tour,ninja,nbjoueurs);
-            affichagepointer(doublebuffer,plateau,cursor,&ninja[tour%nbjoueurs]);
-
-        }
-        if(choixaction==2)
-        {
-
-            for(int i=0;i<nbjoueurs;i++)
-            {
-               attackingprocess(&ninja[tour%nbjoueurs],&ninja[i]);
-            }
-            choixaction=0;
-            tour++;
-        }
-        if(choixaction==3)
-        {
-            //sort
-            choixaction=0;
-            tour++;
-        }
-        if(choixaction==4)
-        {
-            //ne rien faire
-            choixaction=0;
-            tour++;
-        }
-
+        deplacementloop(doublebuffer,&ninja[tour%nbjoueurs],plateau,&tour);
 
             for(i=0;i<nbjoueurs;i++)
             {
@@ -530,26 +405,21 @@ int main()
                 {
                     imageperso[i]=0;
                 }
-                if(ninja[i].PV>0)
-                {
-                    draw_sprite(doublebuffer,ninja[i].img[imageperso[i]],ninja[i].pos.x-25,ninja[i].pos.y-25);
+
+                draw_sprite(doublebuffer,ninja[i].img[imageperso[i]],ninja[i].pos.x-25,ninja[i].pos.y-25);
                 }
 
-
-                draw_sprite(doublebuffer,ninja[tour%nbjoueurs].img[imageperso[tour%nbjoueurs]+4*action],30,50);
-            }
-
-            for(i=0;i<12;i++)
-            {
-                for(j=0;j<12;j++)
+                for(i=0;i<12;i++)
                 {
-                    if(plateau[i][j].obstacle==1)
+                    for(j=0;j<12;j++)
                     {
-                        draw_sprite(doublebuffer,tree,plateau[i][j].x-42,plateau[i][j].y-80);
+                        if(plateau[i][j].obstacle==1)
+                        {
+                            draw_sprite(doublebuffer,tree,plateau[i][j].x-42,plateau[i][j].y-80);
+                        }
                     }
                 }
-            }
-            //showmovement(&ninja[tour%nbjoueurs],doublebuffer,moveposs,plateau);
+                affichagepointer(doublebuffer,plateau,cursor);
         }
 
         show_mouse(doublebuffer);

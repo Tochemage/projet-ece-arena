@@ -12,7 +12,6 @@ typedef struct carre
     int x;
     int y;
     int obstacle;
-    int autrejoueur;
 }t_carre;
 
 typedef struct weapon
@@ -54,13 +53,14 @@ typedef struct perso
     float DEF_Multiplier;
 
     t_weapon arme;
+    int weapon_num;
 }t_perso;
 
 
 
 ////////////////proto////////////////
 
-void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour);
 
 t_perso*ajout(t_perso*oldlist,int num);
 
@@ -74,13 +74,11 @@ t_perso initperso();
 
 void remptab(t_perso tab[4],int*nbjoueurs);
 
-void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour);
 
 void generationobstacles(t_carre tabb[12][12]);
 
-void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_perso*player);
-
-void showmovement(t_perso* ninja,BITMAP* doublebuffer, BITMAP* canmove, t_carre plateau[12][12]);
+void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree);
 
 
 /************ Character stats setup ************/
@@ -99,6 +97,15 @@ void setKatana(t_weapon *arme);
 void setBatonMagique(t_weapon *arme);
 void setDague(t_weapon *arme);
 
+int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
+
+int weaponMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
+
+int characterSetupRoutine(t_perso *character, BITMAP *fondmenu[48]);
+
+/************ Buttons ************/
+
+int button_maker(int posX, int posY, BITMAP *confirm, BITMAP *buffer, int mouse_prev);
 
 
 

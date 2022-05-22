@@ -3,12 +3,12 @@
 
 BITMAP* recup_sprites( BITMAP*scr,int w,int h,int startx,int starty,int col,int element)
 // bitmap origine
-// taille de l’image élément d’une animation
+// taille de lâ€™image Ã©lÃ©ment dâ€™une animation
 //
-// début de la séquence voulue à partir de la position
+// dÃ©but de la sÃ©quence voulue Ã  partir de la position
 // x et y
 // nombre de colonnes dans la bitmap origine
-// numéro de l’image voulue dans la séquence
+// numÃ©ro de lâ€™image voulue dans la sÃ©quence
 
 {
 
@@ -17,16 +17,16 @@ BITMAP* recup_sprites( BITMAP*scr,int w,int h,int startx,int starty,int col,int 
     int x,y;
 
     bmp=create_bitmap(w,h);
-    // création d’une bitmap pour le sprite
+    // crÃ©ation dâ€™une bitmap pour le sprite
 
     if (bmp!=NULL)
     {
 
         x = startx + (element%col)*w;
-        // calcul de la position réelle du sprite dans la bitmap
+        // calcul de la position rÃ©elle du sprite dans la bitmap
 
         y = starty + (element/col)*h;
-        // d’origine
+        // dâ€™origine
 
         blit( scr, bmp, x, y, 0, 0, w, h);
         //recopie du sprite voulu
@@ -38,6 +38,7 @@ return bmp;
 
 }
 
+/*
 void InitAllegro()
 {
     allegro_init();
@@ -54,3 +55,4 @@ void InitAllegro()
 	install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, 0);
 	set_display_switch_mode(SWITCH_BACKGROUND);
 }
+*/
