@@ -12,6 +12,7 @@ typedef struct carre
     int x;
     int y;
     int obstacle;
+    int autrejoueur;
 }t_carre;
 
 typedef struct weapon
@@ -57,10 +58,9 @@ typedef struct perso
 }t_perso;
 
 
-
 ////////////////proto////////////////
 
-void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour);
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
 
 t_perso*ajout(t_perso*oldlist,int num);
 
@@ -74,11 +74,13 @@ t_perso initperso();
 
 void remptab(t_perso tab[4],int*nbjoueurs);
 
-void deplacement(t_perso*seven, t_carre tab[12][12],int*tour);
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
 
 void generationobstacles(t_carre tabb[12][12]);
 
-void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*tree);
+void affichagepointer(BITMAP*doublebuffer,t_carre tab[12][12],BITMAP*pointer,t_perso*player);
+
+void showmovement(t_perso* player,BITMAP* doublebuffer, BITMAP* canmove, t_carre tab[12][12]);
 
 
 /************ Character stats setup ************/
@@ -106,6 +108,9 @@ int characterSetupRoutine(t_perso *character, BITMAP *fondmenu[48]);
 /************ Buttons ************/
 
 int button_maker(int posX, int posY, BITMAP *confirm, BITMAP *buffer, int mouse_prev);
+void initpartie(int nbjoueurs,t_perso ninja[4], t_carre plateau[12][12],int choixarme[4],BITMAP* assassin[24],BITMAP* mage[24],BITMAP* tank[24],BITMAP* archer[24]);
+
+
 
 
 
