@@ -31,9 +31,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="button_features.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="characters.c">
 			<Option compilerVar="CC" />
 		</Unit>
