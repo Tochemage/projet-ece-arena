@@ -96,6 +96,8 @@ void setKatana(t_weapon *arme);
 void setBatonMagique(t_weapon *arme);
 void setDague(t_weapon *arme);
 
+int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48]);
+
 /************ Buttons ************/
 
 int button_maker(int posX, int posY, BITMAP *confirm, BITMAP *buffer, int mouse_prev);
