@@ -91,11 +91,11 @@ int characterMenuScreen(t_perso *character, BITMAP *fondmenu[48])
     {
         allegro_message("pas pu trouver un perso");
         exit(EXIT_FAILURE);
+        //a;
     }
 
     while(!key[KEY_ENTER] && status==0)
     {
-        printf("%d  %d\n", desc_active, mouse_b);
         blit(fondmenu[imnum], buffer, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         cmpt=(cmpt+1)%6;
         if(cmpt==0)
