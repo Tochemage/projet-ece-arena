@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1653243208 source:d:\courss2\prog\projet\versions def\projet-ece-arena-main\projetv2\gameprog.c
+	"header.h"
+
+1653243208 d:\courss2\prog\projet\versions def\projet-ece-arena-main\projetv2\header.h
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
+1653243208 source:d:\courss2\prog\projet\versions def\projet-ece-arena-main\projetv2\main.c
+	"header.h"
+
