@@ -307,6 +307,7 @@ int main()
                 for(int i=0;i<nbjoueurs;i++)
                 {
                     ninja[i]=initperso();
+                    ninja[i].num=i;
                 }
                 if(nbjoueurs==2)
                 {
@@ -488,7 +489,7 @@ int main()
 
         if(choixaction==1)
         {
-            deplacementloop(doublebuffer,&ninja[tour%nbjoueurs],plateau,&tour,ninja);
+            deplacementloop(doublebuffer,&ninja[tour%nbjoueurs],plateau,&tour,ninja,nbjoueurs);
             affichagepointer(doublebuffer,plateau,cursor,&ninja[tour%nbjoueurs]);
 
         }

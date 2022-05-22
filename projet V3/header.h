@@ -60,7 +60,7 @@ typedef struct perso
 
 ////////////////proto////////////////
 
-void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso* otherperso[4]);
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
 
 t_perso*ajout(t_perso*oldlist,int num);
 
@@ -74,7 +74,7 @@ t_perso initperso();
 
 void remptab(t_perso tab[4],int*nbjoueurs);
 
-void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso*autreperso[4]);
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs);
 
 void generationobstacles(t_carre tabb[12][12]);
 

@@ -125,3 +125,24 @@
 1653081563 source:d:\courss2\prog\projet\versions\v3.3\projet-ece-arena-main\projetv2\weapons.c
 	"header.h"
 
+1653227461 source:c:\users\mdial\downloads\projet-ece-arena-th-o-menu-tdj\projet-ece-arena-th-o-menu-tdj\projet v3\characters.c
+	"header.h"
+
+1653228291 c:\users\mdial\downloads\projet-ece-arena-th-o-menu-tdj\projet-ece-arena-th-o-menu-tdj\projet v3\header.h
+	<stdio.h>
+	<stdlib.h>
+	<allegro.h>
+	<time.h>
+
+1653227462 source:c:\users\mdial\downloads\projet-ece-arena-th-o-menu-tdj\projet-ece-arena-th-o-menu-tdj\projet v3\progallegro.c
+	"header.h"
+
+1653227462 source:c:\users\mdial\downloads\projet-ece-arena-th-o-menu-tdj\projet-ece-arena-th-o-menu-tdj\projet v3\weapons.c
+	"header.h"
+
+1653231615 source:c:\users\mdial\downloads\projet-ece-arena-th-o-menu-tdj\projet-ece-arena-th-o-menu-tdj\projet v3\gameprog.c
+	"header.h"
+
+1653231576 source:c:\users\mdial\downloads\projet-ece-arena-th-o-menu-tdj\projet-ece-arena-th-o-menu-tdj\projet v3\main.c
+	"header.h"
+
