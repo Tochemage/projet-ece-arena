@@ -1,7 +1,7 @@
 #include "header.h"
 
 
-void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso* otherperso[4])
+void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs)
 {
     /*
     int i,j;
@@ -13,7 +13,7 @@ void deplacementloop(BITMAP*doublebuffer,t_perso*ninja,t_carre plateau[12][12],i
             }
         }
     */
-        deplacement(ninja,plateau,tour,otherperso);
+        deplacement(ninja,plateau,tour,tabjoueur,nbjoueurs);
 }
 
 t_perso*ajout(t_perso*oldlist,int num)
@@ -69,14 +69,16 @@ void remptab(t_perso tab[4],int*nbjoueurs)
     for(i=0;i<(*nbjoueurs);i++)
     {
         tab[i]=initperso();
+        tab[i].num=i;
     }
 }
 
-void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso*autreperso[4])
+void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso tabjoueur[4], int nbjoueurs)
 {
-    int i,j;
+    int i,j,cmpt;
     int casediffx;
     int casediffy;
+
     if(mouse_b&1 && seven->deplacementx==(-24) && seven->deplacementy==(-24))
     {
         for(j=0;j<12;j++)
@@ -103,7 +105,7 @@ void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso*autreperso[
     if(seven->deplacementy!=(-24) || seven->deplacementx!=(-24))
         {
             seven->pospre=seven->pos;
-            rest(1);
+            rest(50);
         }
 
 
@@ -148,7 +150,16 @@ void deplacement(t_perso*seven, t_carre tab[12][12],int*tour,t_perso*autreperso[
         }
     }
 
-    if(seven->pos.obstacle==1 || seven->pos.obstacle==2)
+    cmpt=0;
+    for(i=0;i<nbjoueurs;i++)
+    {
+        if(seven->pos.numx==tabjoueur[i].pos.numx && seven->pos.numy==tabjoueur[i].pos.numy && seven->num!=tabjoueur[i].num)
+        {
+            cmpt++;
+        }
+    }
+
+    if(seven->pos.obstacle==1 || seven->pos.obstacle==2 || cmpt>0)
     {
         if(seven->deplacementx==(-24))
         {
